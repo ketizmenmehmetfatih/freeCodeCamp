@@ -26,7 +26,7 @@ const myVar = 12 - 6;
 
 # --hints--
 
-The variable `difference` should be equal to `12`.
+Die Variable `difference` sollte auf `12` gesetzt sein.
 
 ```js
 assert(difference === 12);
@@ -35,7 +35,7 @@ assert(difference === 12);
 Du solltest nur eine Zahl von `45` abziehen.
 
 ```js
-assert(/difference=45-33;?/.test(__helpers.removeWhiteSpace(code)));
+assert(/difference=45-33;?/.test(__helpers.removeWhiteSpace(__helpers.removeJSComments(code))));
 ```
 
 # --seed--

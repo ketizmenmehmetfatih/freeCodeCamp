@@ -28,6 +28,12 @@ assert(incAction().type === INCREMENT);
 assert(decAction().type === DECREMENT);
 ```
 
+`store.getState()` を実行すると数値が返ります。
+
+```js
+assert(typeof store.getState() === 'number');
+```
+
 Redux ストアを、`state` を 0 として初期化します。
 
 ```js

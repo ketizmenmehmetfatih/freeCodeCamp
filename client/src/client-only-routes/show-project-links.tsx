@@ -1,23 +1,24 @@
-import { Table } from '@freecodecamp/react-bootstrap';
-import { find, first } from 'lodash-es';
+import { find } from 'lodash-es';
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Table } from '@freecodecamp/ui';
 
 import { Link, Spacer } from '../components/helpers';
-import ProjectModal from '../components/SolutionViewer/ProjectModal';
-import { CompletedChallenge, User } from '../redux/prop-types';
+import ProjectModal from '../components/SolutionViewer/project-modal';
+import type { CompletedChallenge, User } from '../redux/prop-types';
 import {
-  legacyProjectMap,
-  projectMap
-} from '../resources/cert-and-project-map';
+  certsToProjects,
+  type CertTitle
+} from '../../config/cert-and-project-map';
 
 import { SolutionDisplayWidget } from '../components/solution-display-widget';
 import ProjectPreviewModal from '../templates/Challenges/components/project-preview-modal';
+import ExamResultsModal from '../components/SolutionViewer/exam-results-modal';
 
 import { openModal } from '../templates/Challenges/redux/actions';
 
-import { regeneratePathAndHistory } from '../../../utils/polyvinyl';
+import { regeneratePathAndHistory } from '../../../shared/utils/polyvinyl';
 import '../components/layouts/project-links.css';
 interface ShowProjectLinksProps {
   certName: string;
@@ -79,60 +80,73 @@ const ShowProjectLinks = (props: ShowProjectLinksProps): JSX.Element => {
       openModal('projectPreview');
     };
 
+    const showExamResults = () => {
+      setSolutionState({
+        projectTitle,
+        completedChallenge: completedProject,
+        showCode: false
+      });
+      openModal('examResults');
+    };
+
     return (
       <SolutionDisplayWidget
         completedChallenge={completedProject}
-        dataCy={`${projectTitle} solution`}
         projectTitle={projectTitle}
         displayContext='certification'
         showUserCode={showUserCode}
         showProjectPreview={showProjectPreview}
+        showExamResults={showExamResults}
       ></SolutionDisplayWidget>
     );
   };
 
-  const renderProjectsFor = (certName: string) => {
+  const ProjectsFor = ({ certName }: { certName: CertTitle }) => {
     if (certName === 'Legacy Full Stack') {
-      const legacyCerts = [
+      const certs = [
         { title: 'Responsive Web Design' },
-        { title: 'JavaScript Algorithms and Data Structures' },
+        { title: 'Legacy JavaScript Algorithms and Data Structures' },
         { title: 'Front End Development Libraries' },
         { title: 'Data Visualization' },
         { title: 'Back End Development and APIs' },
         { title: 'Legacy Information Security and Quality Assurance' }
       ] as const;
-      return legacyCerts.map((cert, ind) => {
-        const mapToUse = (projectMap[cert.title] ||
-          legacyProjectMap[cert.title]) as { certSlug: string }[];
-        const { certSlug } = first(mapToUse) as { certSlug: string };
-        const certLocation = `/certification/${username}/${certSlug}`;
-        return (
-          <tr key={ind}>
+
+      return (
+        <>
+          {certs.map((cert, ind) => {
+            const projects = certsToProjects[cert.title];
+            const { certSlug } = projects[0];
+            const certLocation = `/certification/${username}/${certSlug}`;
+            return (
+              <tr key={ind}>
+                <td>
+                  <Link className='project-link' to={certLocation} external>
+                    {t(`certification.title.${cert.title}`, cert.title)}
+                  </Link>
+                </td>
+              </tr>
+            );
+          })}
+        </>
+      );
+    }
+
+    const projects = certsToProjects[certName];
+    return (
+      <>
+        {projects.map(({ link, title, id }) => (
+          <tr key={id}>
             <td>
-              <Link className='project-link' to={certLocation} external>
-                {t(`certification.title.${cert.title}`, cert.title)}
+              <Link to={link}>
+                {t(`certification.projects.title.${title}`, title)}
               </Link>
             </td>
+            <td colSpan={2}>{getProjectSolution(id, title)}</td>
           </tr>
-        );
-      });
-    }
-    // @ts-expect-error Error expected until projectMap is typed
-    const project = (projectMap[certName] || legacyProjectMap[certName]) as {
-      link: string;
-      title: string;
-      id: string;
-    }[];
-    return project.map(({ link, title, id }) => (
-      <tr key={id}>
-        <td>
-          <Link to={link}>
-            {t(`certification.project.title.${title}`, title)}
-          </Link>
-        </td>
-        <td colSpan={2}>{getProjectSolution(id, title)}</td>
-      </tr>
-    ));
+        ))}
+      </>
+    );
   };
 
   const {
@@ -141,6 +155,17 @@ const ShowProjectLinks = (props: ShowProjectLinksProps): JSX.Element => {
     user: { username }
   } = props;
   const { completedChallenge, showCode, projectTitle } = solutionState;
+  const examResults = completedChallenge?.examResults;
+
+  const getCertHeading = (certName: string) => {
+    if (certName == 'Legacy Full Stack') {
+      return 'certification.project.heading-legacy-full-stack';
+    } else if (certName == 'Foundational C# with Microsoft') {
+      return 'certification.project.heading-exam';
+    } else {
+      return 'certification.project.heading';
+    }
+  };
 
   const challengeData: CompletedChallenge | null = completedChallenge
     ? {
@@ -152,25 +177,29 @@ const ShowProjectLinks = (props: ShowProjectLinksProps): JSX.Element => {
       }
     : null;
 
+  const isCertName = (maybeCertName: string): maybeCertName is CertTitle => {
+    if (maybeCertName === 'Legacy Full Stack') return true;
+    return maybeCertName in certsToProjects;
+  };
+  if (!isCertName(certName)) return <div> Unknown Certification</div>;
+
   return (
-    <div>
-      {t(
-        certName === 'Legacy Full Stack'
-          ? 'certification.project.heading-legacy-full-stack'
-          : 'certification.project.heading',
-        { user: name }
-      )}
-      <Spacer />
+    <div data-cy='solution-widget' data-playwright-test-label='project-links'>
+      {t(getCertHeading(certName), { user: name })}
+      <Spacer size='medium' />
       <Table striped>
         <thead>
           <tr>
-            <th>{t('profile.challenge')}</th>
-            <th>{t('settings.labels.solution')}</th>
+            <th>
+              <span className='sr-only'>{t('settings.headings.certs')}</span>
+            </th>
           </tr>
         </thead>
-        <tbody>{renderProjectsFor(certName)}</tbody>
+        <tbody>
+          <ProjectsFor certName={certName} />
+        </tbody>
       </Table>
-      <Spacer />
+      <Spacer size='medium' />
       <ProjectModal
         challengeFiles={completedChallenge?.challengeFiles ?? null}
         handleSolutionModalHide={handleSolutionModalHide}
@@ -186,25 +215,29 @@ const ShowProjectLinks = (props: ShowProjectLinksProps): JSX.Element => {
         previewTitle={projectTitle}
         showProjectPreview={true}
       />
-      <Trans i18nKey='certification.project.footnote'>
-        If you suspect that any of these projects violate the{' '}
-        <a
-          href='https://www.freecodecamp.org/news/academic-honesty-policy/'
-          rel='noreferrer'
-          target='_blank'
-        >
-          academic honesty policy
-        </a>
-        , please{' '}
-        <a
-          href={`/user/${username}/report-user`}
-          rel='noreferrer'
-          target='_blank'
-        >
-          report this to our team
-        </a>
-        .
-      </Trans>
+      <ExamResultsModal projectTitle={projectTitle} examResults={examResults} />
+
+      {certName != 'Foundational C# with Microsoft' && (
+        <Trans i18nKey='certification.project.footnote'>
+          If you suspect that any of these projects violate the{' '}
+          <a
+            href='https://www.freecodecamp.org/news/academic-honesty-policy/'
+            rel='noreferrer'
+            target='_blank'
+          >
+            academic honesty policy
+          </a>
+          , please{' '}
+          <a
+            href={`/user/${username}/report-user`}
+            rel='noreferrer'
+            target='_blank'
+          >
+            report this to our team
+          </a>
+          .
+        </Trans>
+      )}
     </div>
   );
 };

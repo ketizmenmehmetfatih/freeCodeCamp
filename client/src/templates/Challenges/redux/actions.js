@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 
-import { getLines } from '../../../../../utils/get-lines';
+import { getLines } from '../../../../../shared/utils/get-lines';
 import { actionTypes } from './action-types';
 
 export const createFiles = createAction(
@@ -43,8 +43,6 @@ export const setShowPreviewPane = createAction(actionTypes.setShowPreviewPane);
 
 export const logsToConsole = createAction(actionTypes.logsToConsole);
 
-export const lockCode = createAction(actionTypes.lockCode);
-export const unlockCode = createAction(actionTypes.unlockCode);
 export const disableBuildOnError = createAction(
   actionTypes.disableBuildOnError
 );
@@ -52,6 +50,11 @@ export const storedCodeFound = createAction(actionTypes.storedCodeFound);
 export const noStoredCodeFound = createAction(actionTypes.noStoredCodeFound);
 export const saveEditorContent = createAction(actionTypes.saveEditorContent);
 export const setIsAdvancing = createAction(actionTypes.setIsAdvancing);
+export const setChapterSlug = createAction(actionTypes.setChapterSlug);
+export const setUserCompletedExam = createAction(
+  actionTypes.setUserCompletedExam
+);
+
 export const closeModal = createAction(actionTypes.closeModal);
 export const openModal = createAction(actionTypes.openModal);
 
@@ -64,11 +67,21 @@ export const storePortalWindow = createAction(actionTypes.storePortalWindow);
 export const removePortalWindow = createAction(actionTypes.removePortalWindow);
 
 export const challengeMounted = createAction(actionTypes.challengeMounted);
+export const sendRenderTime = createAction(actionTypes.sendRenderTime);
 export const checkChallenge = createAction(actionTypes.checkChallenge);
 export const executeChallenge = createAction(actionTypes.executeChallenge);
+export const executeChallengeComplete = createAction(
+  actionTypes.executeChallengeComplete
+);
 export const resetChallenge = createAction(actionTypes.resetChallenge);
 export const stopResetting = createAction(actionTypes.stopResetting);
 export const submitChallenge = createAction(actionTypes.submitChallenge);
+export const submitChallengeComplete = createAction(
+  actionTypes.submitChallengeComplete
+);
+export const submitChallengeError = createAction(
+  actionTypes.submitChallengeError
+);
 export const resetAttempts = createAction(actionTypes.resetAttempts);
 
 export const setEditorFocusability = createAction(

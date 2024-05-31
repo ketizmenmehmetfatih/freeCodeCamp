@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next';
 import Magnifier from '../../../assets/icons/magnifier';
 import InputReset from '../../../assets/icons/input-reset';
 import { searchPageUrl } from '../../../utils/algolia-locale-setup';
+import type { SearchBarProps } from './search-bar';
 
-type Props = {
-  innerRef?: React.RefObject<HTMLDivElement>;
-};
-
-const SearchBarOptimized = ({ innerRef }: Props): JSX.Element => {
+const SearchBarOptimized = ({
+  innerRef
+}: Pick<SearchBarProps, 'innerRef'>): JSX.Element => {
   const { t } = useTranslation();
   const placeholder = t('search.placeholder');
   const searchUrl = searchPageUrl;
@@ -20,6 +19,9 @@ const SearchBarOptimized = ({ innerRef }: Props): JSX.Element => {
     event.preventDefault();
     if (value && value.length > 1) {
       window.open(`${searchUrl}?query=${encodeURIComponent(value)}`, '_blank');
+      setValue('');
+      // Blur the input to remove the selection
+      inputElementRef.current?.blur();
     }
   };
   const onClick = () => {
@@ -39,7 +41,7 @@ const SearchBarOptimized = ({ innerRef }: Props): JSX.Element => {
             role='search'
           >
             <label className='sr-only' htmlFor='ais-SearchBox-input'>
-              {t ? t('search.label') : ''}
+              {t('search.label')}
             </label>
             <input
               autoCapitalize='off'

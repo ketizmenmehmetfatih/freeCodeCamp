@@ -1,6 +1,6 @@
 ---
 id: 587d7b7d367417b2b2512b1d
-title: Ітерація через ключі об'єкта у циклі "for...in"
+title: Ітерація через ключі об’єкта за допомогою інструкції for...in
 challengeType: 1
 forumTopicId: 301162
 dashedName: iterate-through-the-keys-of-an-object-with-a-for---in-statement
@@ -8,23 +8,28 @@ dashedName: iterate-through-the-keys-of-an-object-with-a-for---in-statement
 
 # --description--
 
-Часом вам треба буде ітерувати всі ключі всередині об'єкта. У JavaScript це вимагає певного синтаксису, що називається <dfn>for...in</dfn> циклом. Для нашого `users` об'єкту, це може виглядати так:
+Часом потрібно ітерувати через всі ключі всередині об’єкта. Для цього можна використати цикл <dfn>for...in</dfn>. Цикл for...in виглядає так:
 
-```js
-for (let user in users) {
-  console.log(user);
+```javascript
+const refrigerator = {
+  'milk': 1,
+  'eggs': 12,
+};
+
+for (const food in refrigerator) {
+  console.log(food, refrigerator[food]);
 }
 ```
 
-Це б зазначило, що `Alan`, `Jeff` та `Sarah` мають кожне значення у власному рядку.
+Цей код виводить `milk 1` та `eggs 12`, а кожна пара ключ-значення з’являється в окремому рядку.
 
-У цьому циклі ми визначили змінну `user` і, як ви можете побачити, цю змінну скидували під час кожної ітерації ключів об'єкта, в міру зациклювання через об’єкт, що призводить до того, що кожне ім'я користувача друкується на консолі.
+Ми визначили змінну `food` у голові циклу, і ця змінна встановлювалася на кожний з ключів об’єкта за кожної ітерації. У результаті цього кожна назва їжі виводилась на консолі.
 
-**ПРИМІТКА:** об'єкти не зберігають впорядкування ключів так, як це роблять масиви. Таким чином, позиція ключа в об'єкті або відносний його порядок є недоречним, коли ми його відсилаємо або отримуємо до нього доступ.
+**ПРИМІТКА:** об’єкти не зберігають впорядкування ключів так, як це роблять масиви. Тому позиція ключа в об’єкті або його відносний порядок є недоречними, якщо ми посилаємось або отримуємо до нього доступ.
 
 # --instructions--
 
-Ми визначили функцію `countOnline`, яка приймає один аргумент (користувацький об'єкт). Використовуйте <dfn>for...in</dfn> цикл у межах цієї функції, щоб обробити користувацький об'єкт, який перейшов у функцію, і повернути кількість користувачів, чия `online` властивість установлена на `true`. Приклад користувацького об'єкту, який можна передати до `countOnline`, показано нижче. Кожен користувач матиме `online` властивість з обома `true` або `false` значеннями.
+Ми визначили функцію `countOnline`, яка приймає один аргумент `allUsers`. Використайте інструкцію <dfn>for...in</dfn> всередині цієї функції, щоб пройтися по об’єкту `allUsers` і повернути кількість користувачів, чия властивість `online` встановлена на `true`. Приклад об’єкту, який можна передати до `countOnline`, показано нижче. Кожен користувач матиме властивість `online` встановлену на `true` або `false`.
 
 ```js
 {
@@ -42,29 +47,29 @@ for (let user in users) {
 
 # --hints--
 
-Для функції `countOnline` слід використовувати `for in` цикл, щоб ітерувати ключі об'єкта, який передається до неї.
+Функція `countOnline` має використати інструкцію `for in`, щоб ітерувати через ключі об’єкта, переданого до неї.
 
 ```js
 assert(
-  code.match(
+  __helpers.removeJSComments(code).match(
     /for\s*\(\s*(var|let|const)\s+[a-zA-Z_$]\w*\s+in\s+[a-zA-Z_$]\w*\s*\)/
   )
 );
 ```
 
-Функція `countOnline` повинна повернути `1`, коли об'єкт `{ Alan: { online: false }, Jeff: { online: true }, Sarah: { online: false } }` передається до неї
+Функція `countOnline` має повернути `1`, коли до неї передано об’єкт `{ Alan: { online: false }, Jeff: { online: true }, Sarah: { online: false } }`
 
 ```js
 assert(countOnline(usersObj1) === 1);
 ```
 
-Функція `countOnline` повинна повернути `2`, коли об'єкт `{ Alan: { online: true }, Jeff: { online: false }, Sarah: { online: true } }` передається до неї
+Функція `countOnline` має повернути `2`, коли до неї передано об’єкт `{ Alan: { online: true }, Jeff: { online: false }, Sarah: { online: true } }`
 
 ```js
 assert(countOnline(usersObj2) === 2);
 ```
 
-Функція `countOnline` повинна повернути `0`, коли об'єкт `{ Alan: { online: false }, Jeff: { online: false }, Sarah: { online: false } }` передається до неї
+Функція `countOnline` має повернути `0`, коли до неї передано об’єкт `{ Alan: { online: false }, Jeff: { online: false }, Sarah: { online: false } }`
 
 ```js
 assert(countOnline(usersObj3) === 0);
@@ -128,7 +133,7 @@ const users = {
   }
 }
 
-function countOnline(usersObj) {
+function countOnline(allUsers) {
   // Only change code below this line
 
   // Only change code above this line
@@ -140,13 +145,13 @@ console.log(countOnline(users));
 # --solutions--
 
 ```js
-function countOnline(usersObj) {
-  let online = 0;
-  for(let user in usersObj){
-    if(usersObj[user].online) {
-      online++;
+function countOnline(allUsers) {
+  let numOnline = 0;
+  for(const user in allUsers){
+    if(allUsers[user].online) {
+      numOnline++;
     }
   }
-  return online;
+  return numOnline;
 }
 ```

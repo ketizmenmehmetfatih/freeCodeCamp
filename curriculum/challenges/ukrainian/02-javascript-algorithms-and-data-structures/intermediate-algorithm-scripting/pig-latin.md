@@ -8,7 +8,7 @@ dashedName: pig-latin
 
 # --description--
 
-Поросяча латина – це спосіб шифрування англійських слів. Правила такі:
+Поросяча латина — це спосіб шифрування англійських слів. Правила такі:
 
 \- Якщо слово починається з приголосного звуку, то перший приголосний або сполучення приголосних переміщуються в кінець слова і додається `ay`.
 
@@ -50,7 +50,7 @@ assert.deepEqual(translatePigLatin('algorithm'), 'algorithmway');
 assert.deepEqual(translatePigLatin('eight'), 'eightway');
 ```
 
-Ваша програма повинна обробляти слова, у яких перший голосний звук у середині слова.  `translatePigLatin("schwartz")` має повертати рядок `artzschway`.
+Ваша програма повинна обробляти слова, у яких перший голосний звук розташований у середині слова.  `translatePigLatin("schwartz")` має повертати рядок `artzschway`.
 
 ```js
 assert.deepEqual(translatePigLatin('schwartz'), 'artzschway');

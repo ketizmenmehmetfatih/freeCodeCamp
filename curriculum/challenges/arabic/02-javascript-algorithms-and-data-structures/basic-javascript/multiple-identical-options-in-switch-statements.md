@@ -1,6 +1,6 @@
 ---
 id: 56533eb9ac21ba0edf2244df
-title: خيرات عدّة متشابهة في تعبيرات Switch
+title: عدّة خيرات متشابهة في تعبيرات switch
 challengeType: 1
 videoUrl: 'https://scrimba.com/c/cdBKWCV'
 forumTopicId: 18242
@@ -9,7 +9,7 @@ dashedName: multiple-identical-options-in-switch-statements
 
 # --description--
 
-إذا تم حذف عبارات `break` من عبارات `switch` لكل `case`، سيتم تنفيذ عبارات `case` التالية حتى تقابلهم عبارة `break`. إذا كان لديك مدخلات متعددة بنفس المخرج، يمكنك تمثيلها في عبارة `switch`, أليك مثال:
+إذا تم حذف عبارة `break` من عبارة `switch` في أي `case`، سيتم تنفيذ عبارات `case` التالية حتى مقابلة عبارة `break`. إذا كان لديك مدخلات متعددة بنفس المخرج، يمكنك تمثيلها في عبارة `switch`, أليك مثال:
 
 ```js
 let result = "";
@@ -94,13 +94,13 @@ assert(sequentialSizes(9) === 'High');
 يجب ألا تستخدم أي عبارات `if` أو `else`
 
 ```js
-assert(!/else/g.test(code) || !/if/g.test(code));
+assert(!/else/g.test(__helpers.removeJSComments(code)) || !/if/g.test(__helpers.removeJSComments(code)));
 ```
 
-يجب أن يكون لديك تسع `case`
+يجب أن يكون لديك تسع عبارات `case`
 
 ```js
-assert(code.match(/case/g).length === 9);
+assert(__helpers.removeJSComments(code).match(/case/g).length === 9);
 ```
 
 # --seed--

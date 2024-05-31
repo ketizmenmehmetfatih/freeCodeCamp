@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { sortChallengeFiles } from '../../../../../utils/sort-challengefiles';
+import i18next from 'i18next';
+import { sortChallengeFiles } from '../../../../utils/sort-challengefiles';
 import { ChallengeFile, ChallengeFiles } from '../../../redux/prop-types';
 import { toggleVisibleEditor } from '../redux/actions';
 import {
@@ -10,9 +11,8 @@ import {
   challengeFilesSelector
 } from '../redux/selectors';
 
-type VisibleEditors = {
-  [key: string]: boolean;
-};
+import type { VisibleEditors } from './multifile-editor';
+
 interface EditorTabsProps {
   challengeFiles: ChallengeFiles;
   toggleVisibleEditor: typeof toggleVisibleEditor;
@@ -42,13 +42,21 @@ class EditorTabs extends Component<EditorTabsProps> {
         {sortChallengeFiles(challengeFiles).map(
           (challengeFile: ChallengeFile) => (
             <button
-              aria-expanded={visibleEditors[challengeFile.fileKey] ?? 'false'}
+              aria-expanded={
+                // @ts-expect-error TODO: validate challengeFile on io-boundary,
+                // then we won't need to ignore this error and we can drop the
+                // nullish handling.
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                visibleEditors[challengeFile.fileKey] ?? 'false'
+              }
               key={challengeFile.fileKey}
               data-cy={`editor-tab-${challengeFile.fileKey}`}
               onClick={() => toggleVisibleEditor(challengeFile.fileKey)}
             >
               {`${challengeFile.name}.${challengeFile.ext}`}{' '}
-              <span className='sr-only'>editor</span>
+              <span className='sr-only'>
+                {i18next.t('learn.editor-tabs.editor')}
+              </span>
             </button>
           )
         )}

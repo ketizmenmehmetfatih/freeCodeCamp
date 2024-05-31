@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { Button, Modal } from '@freecodecamp/react-bootstrap';
-import { noop } from 'lodash-es';
 import React, { Component } from 'react';
-import { TFunction, withTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { createSelector } from 'reselect';
+import { Button, Modal } from '@freecodecamp/ui';
 
-import { dasherize } from '../../../../../utils/slugs';
-import Login from '../../../components/Header/components/Login';
-import { executeGA } from '../../../redux/actions';
+import Login from '../../../components/Header/components/login';
 import {
   isSignedInSelector,
   allChallengesInfoSelector
@@ -23,13 +20,14 @@ import {
   successMessageSelector,
   challengeFilesSelector,
   challengeMetaSelector,
-  completedPercentageSelector,
-  completedChallengesInBlockSelector,
-  currentBlockIdsSelector
+  isSubmittingSelector
 } from '../redux/selectors';
-import CompletionModalBody from './completion-modal-body';
-
+import Progress from '../../../components/Progress';
+import GreenPass from '../../../assets/icons/green-pass';
+import { Spacer } from '../../../components/helpers';
+import { MAX_MOBILE_WIDTH } from '../../../../config/misc';
 import './completion-modal.css';
+import callGA from '../../../analytics/call-ga';
 
 const mapStateToProps = createSelector(
   challengeFilesSelector,
@@ -39,72 +37,40 @@ const mapStateToProps = createSelector(
   isSignedInSelector,
   allChallengesInfoSelector,
   successMessageSelector,
-  completedPercentageSelector,
-  completedChallengesInBlockSelector,
-  currentBlockIdsSelector,
+  isSubmittingSelector,
   (
     challengeFiles: ChallengeFiles,
-    {
-      title,
-      id,
-      challengeType
-    }: { title: string; id: string; challengeType: number },
+    { dashedName, id }: { dashedName: string; id: string },
     completedChallengesIds: string[],
     isOpen: boolean,
     isSignedIn: boolean,
     allChallengesInfo: AllChallengesInfo,
     message: string,
-    completedPercent: number,
-    completedChallengesInBlock: number,
-    currentBlockIds: string[]
+    isSubmitting: boolean
   ) => ({
     challengeFiles,
-    title,
     id,
-    challengeType,
+    dashedName,
     completedChallengesIds,
     isOpen,
     isSignedIn,
     allChallengesInfo,
     message,
-    completedPercent,
-    completedChallengesInBlock,
-    currentBlockIds
+    isSubmitting
   })
 );
 
-const mapDispatchToProps = function (dispatch: Dispatch) {
-  const dispatchers = {
-    close: () => dispatch(closeModal('completion')),
-    submitChallenge: () => {
-      dispatch(submitChallenge());
-    },
-    executeGA
-  };
-  return () => dispatchers;
+const mapDispatchToProps = {
+  close: () => closeModal('completion'),
+  submitChallenge
 };
 
-interface CompletionModalsProps {
-  block: string;
-  blockName: string;
-  certification: string;
-  challengeType: number;
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+interface CompletionModalsProps extends StateProps {
   close: () => void;
-  completedChallengesIds: string[];
-  executeGA: () => void;
-  challengeFiles: ChallengeFiles;
-  id: string;
-  isOpen: boolean;
-  isSignedIn: boolean;
-  allChallengesInfo: AllChallengesInfo;
-  message: string;
-  completedPercent: number;
-  completedChallengesInBlock: number;
-  currentBlockIds: string[];
   submitChallenge: () => void;
-  superBlock: string;
   t: TFunction;
-  title: string;
 }
 
 interface CompletionModalState {
@@ -178,80 +144,89 @@ class CompletionModal extends Component<
     this.props.close();
   }
 
+  componentDidUpdate(prevProps: CompletionModalsProps): void {
+    const { isOpen: prevIsOpen } = prevProps;
+    const { isOpen } = this.props;
+    if (!prevIsOpen && isOpen) {
+      callGA({ event: 'pageview', pagePath: '/completion-modal' });
+    }
+  }
+
   render(): JSX.Element {
     const {
-      block,
       close,
-      id,
       isOpen,
       isSignedIn,
+      isSubmitting,
       message,
-      superBlock = '',
       t,
-      title,
-      completedPercent,
-      completedChallengesInBlock,
-      currentBlockIds,
+      dashedName,
       submitChallenge
     } = this.props;
 
-    const totalChallengesInBlock = currentBlockIds.length;
+    const isMacOS = navigator.userAgent.includes('Mac OS');
 
-    if (isOpen) {
-      executeGA({ event: 'pageview', pagePath: '/completion-modal' });
+    const isDesktop = window.innerWidth > MAX_MOBILE_WIDTH;
+
+    let buttonText;
+    if (isDesktop) {
+      if (isMacOS) {
+        buttonText = isSignedIn
+          ? t('buttons.submit-and-go-3')
+          : t('buttons.go-to-next-3');
+      } else {
+        buttonText = isSignedIn
+          ? t('buttons.submit-and-go-2')
+          : t('buttons.go-to-next-2');
+      }
+    } else {
+      buttonText = isSignedIn
+        ? t('buttons.submit-and-go')
+        : t('buttons.go-to-next');
     }
-    // normally dashedName should be graphQL queried and then passed around,
-    // but it's only used to make a nice filename for downloading, so dasherize
-    // is fine here.
-    const dashedName = dasherize(title);
+
     return (
       <Modal
-        animation={false}
-        bsSize='lg'
-        dialogClassName='challenge-success-modal'
-        keyboard={true}
-        onHide={close}
+        onClose={close}
+        open={!!isOpen}
+        size='large'
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        onKeyDown={isOpen ? this.handleKeypress : noop}
-        show={isOpen}
+        onKeyDown={isOpen ? this.handleKeypress : undefined}
       >
-        <Modal.Header
-          className='challenge-list-header fcc-modal'
-          closeButton={true}
-        >
-          <Modal.Title className='completion-message'>{message}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='completion-modal-body'>
-          <CompletionModalBody
-            {...{
-              block,
-              completedPercent,
-              completedChallengesInBlock,
-              currentChallengeId: id,
-              superBlock,
-              totalChallengesInBlock
-            }}
+        <Modal.Header closeButtonClassNames='close'>{message}</Modal.Header>
+        <Modal.Body>
+          <GreenPass
+            className='completion-success-icon'
+            data-testid='fcc-completion-success-icon'
+            data-playwright-test-label='completion-success-icon'
           />
+          <div className='completion-block-details'>
+            <Progress />
+          </div>
         </Modal.Body>
         <Modal.Footer>
           {isSignedIn ? null : (
-            <Login block={true}>{t('learn.sign-in-save')}</Login>
+            <>
+              <Login block={true}>{t('learn.sign-in-save')}</Login>
+              <Spacer size='xxSmall' />
+            </>
           )}
           <Button
             block={true}
-            bsSize='large'
-            bsStyle='primary'
+            size='large'
+            variant='primary'
+            disabled={isSubmitting}
+            data-cy='submit-challenge'
             onClick={() => submitChallenge()}
           >
-            {isSignedIn ? t('buttons.submit-and-go') : t('buttons.go-to-next')}
-            <span className='hidden-xs'> (Ctrl + Enter)</span>
+            {buttonText}
           </Button>
+          <Spacer size='xxSmall' />
           {this.state.downloadURL ? (
             <Button
               block={true}
-              bsSize='lg'
-              bsStyle='primary'
-              className='btn-invert'
+              size='large'
+              variant='primary'
               download={`${dashedName}.txt`}
               href={this.state.downloadURL}
             >

@@ -9,17 +9,17 @@ dashedName: selecting-from-many-options-with-switch-statements
 
 # --description--
 
-Se você possui muitas opções pra escolher, use uma instrução <dfn>switch</dfn>. Uma instrução `switch` testa um valor e pode ter muitas instruções <dfn>case</dfn> as quais definem os diversos valores possíveis. As instruções são executadas desde o primeiro `case` correspondente até que seja encontrado um `break`.
+Se você precisar corresponder um valor a muitas opções, pode usar uma instrução <dfn>switch</dfn>. Uma instrução `switch` compara o valor a uma instrução de <dfn>caso</dfn>, que define os diversos valores possíveis. Quaisquer instruções JavaScript válidas podem ser executadas dentro de um bloco de <dfn>caso</dfn> (case) e serão executadas a partir do primeiro valor de `case` correspondente até que um `break` seja encontrado.
 
 Aqui está um exemplo de uma instrução `switch`:
 
 ```js
-switch (lowercaseLetter) {
-  case "a":
-    console.log("A");
+switch (fruit) {
+  case "apple":
+    console.log("The fruit is an apple");
     break;
-  case "b":
-    console.log("B");
+  case "orange":
+    console.log("The fruit is an orange");
     break;
 }
 ```
@@ -63,13 +63,13 @@ assert(caseInSwitch(4) === 'delta');
 Você não deve usar nenhuma instrução `if` ou `else`
 
 ```js
-assert(!/else/g.test(code) || !/if/g.test(code));
+assert(!/else/g.test(__helpers.removeJSComments(code)) || !/if/g.test(__helpers.removeJSComments(code)));
 ```
 
 Você deve ter pelo menos 3 instruções `break`
 
 ```js
-assert(code.match(/break/g).length > 2);
+assert(__helpers.removeJSComments(code).match(/break/g).length > 2);
 ```
 
 # --seed--

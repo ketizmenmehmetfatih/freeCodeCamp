@@ -2,14 +2,14 @@ const path = require('path');
 
 const _ = require('lodash');
 
-const envData = require('../../config/env.json');
+const envData = require('../config/env.json');
 const {
   getChallengesForLang,
   generateChallengeCreator,
   CHALLENGES_DIR,
   META_DIR,
   getChallengesDirForLang
-} = require('../../curriculum/getChallenges');
+} = require('../../curriculum/get-challenges');
 
 const { curriculumLocale } = envData;
 
@@ -24,15 +24,17 @@ exports.replaceChallengeNode = () => {
     const metaPath = path.resolve(META_DIR, `${blockName}/meta.json`);
     delete require.cache[require.resolve(metaPath)];
     const meta = require(metaPath);
+    const englishPath = path.resolve(CHALLENGES_DIR, 'english', filePath);
+    const i18nPath = path.resolve(CHALLENGES_DIR, curriculumLocale, filePath);
     // TODO: reimplement hot-reloading of certifications
+    const createChallenge = generateChallengeCreator(
+      curriculumLocale,
+      englishPath,
+      i18nPath
+    );
     return await createChallenge(filePath, meta);
   };
 };
-
-const createChallenge = generateChallengeCreator(
-  CHALLENGES_DIR,
-  curriculumLocale
-);
 
 exports.buildChallenges = async function buildChallenges() {
   const curriculum = await getChallengesForLang(curriculumLocale);

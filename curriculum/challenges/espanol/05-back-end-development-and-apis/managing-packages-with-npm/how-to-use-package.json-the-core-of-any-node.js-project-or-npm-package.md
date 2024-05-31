@@ -11,20 +11,14 @@ dashedName: how-to-use-package-json-the-core-of-any-node-js-project-or-npm-packa
 Trabajar en estos desafíos implica escribir tu código usando uno de los siguientes métodos:
 
 - Clone este repositorio de <a href="https://github.com/freeCodeCamp/boilerplate-npm/" target="_blank" rel="noopener noreferrer nofollow"> GitHub</a> y complete estos desafíos localmente.
-- Usa <a href="https://replit.com/github/freeCodeCamp/boilerplate-npm" target="_blank" rel="noopener noreferrer nofollow">nuestro proyecto de inicio Replit</a> para completar estos desafíos.
+- Use <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-npm/" target="_blank" rel="noopener noreferrer nofollow">our Gitpod starter project</a> to complete these challenges.
 - Utiliza un constructor de sitios de tu elección para completar el proyecto. Asegúrate de incorporar todos los archivos de nuestro repositorio de GitHub.
 
-Si usas Replit, sigue los siguientes pasos para configurar el proyecto:
+El archivo `package.json` es el centro de cualquier proyecto Node.js o paquete npm. It stores information about your project. Está formado por un único objeto JSON donde se guarda la información en pares clave-valor. There are only two required fields; `name` and `version`, but it’s good practice to provide additional information.
 
--   Comienza importando el proyecto en Replit.
--   A continuación, verás una ventana `.replit`
--   Selecciona `Use run command` y haz click en el botón `Done`.
+You can create the `package.json` file from the terminal using the `npm init` command. This will run a guided setup. Using `npm init` with the `-y` flag will generate the file without having it ask any questions, `npm init -y`.
 
-Una vez que hayas acabado, asegúrate de que un demo funcional del proyecto esté alojado en algún sitio público. A continuación, introduce la URL en el campo enlace a la solución.
-
-El archivo `package.json` es el centro de cualquier proyecto Node.js o paquete npm. It stores information about your project, similar to how the `head` section of an HTML document describes the content of a webpage. Está formado por un único objeto JSON donde se guarda la información en pares clave-valor. There are only two required fields; `name` and `version`, but it’s good practice to provide additional information about your project that could be useful to future users or maintainers.
-
-If you look at the file tree of your project, you will find the `package.json` file on the top level of the tree. Este es el archivo que mejorarás en el próximo par de desafíos.
+Observando el árbol de ficheros del proyecto, se puede ver que `package.json` está en la raíz. Este es el archivo que mejorarás en el próximo par de desafíos.
 
 Uno de los datos más comunes de este archivo es el campo `author`. Específica quién creó el proyecto, y puede consistir en una cadena o un objeto con datos de contacto u otros detalles. Un objeto es recomendable para proyectos de cierta importancia; para nuestro proyecto de prueba, servirá con una simple cadena como la siguiente.
 
@@ -34,13 +28,15 @@ Uno de los datos más comunes de este archivo es el campo `author`. Específica 
 
 # --instructions--
 
-Add your name as the `author` of the project in the `package.json` file.
+Agrega tu nombre como `author` del proyecto en el fichero `package.json`.
 
 **Nota:** Recuerda que estás escribiendo JSON, de manera que todos los nombres de campos deben ir entre comillas dobles (") y separados por una coma (,).
 
+If you are using Gitpod, make sure the app is running and the preview window is open. Copy the preview window's URL and paste it into the Solution Link input below.
+
 # --hints--
 
-`package.json` should have a valid "author" key
+`package.json` debe tener una clave válida "author"
 
 ```js
 (getUserInput) =>

@@ -37,7 +37,7 @@ myObj["NoSpace"];
 
 # --hints--
 
-`entreeValue` повинен бути рядком
+`entreeValue` має бути рядком
 
 ```js
 assert(typeof entreeValue === 'string');
@@ -49,7 +49,7 @@ assert(typeof entreeValue === 'string');
 assert(entreeValue === 'hamburger');
 ```
 
-`drinkValue` повинне бути рядком
+`drinkValue` має бути рядком
 
 ```js
 assert(typeof drinkValue === 'string');
@@ -64,7 +64,7 @@ assert(drinkValue === 'water');
 Ви повинні використати дужкову нотацію двічі
 
 ```js
-assert(code.match(/testObj\s*?\[('|")[^'"]+\1\]/g).length > 1);
+assert(__helpers.removeJSComments(code).match(/testObj\s*?\[('|")[^'"]+\1\]/g).length > 1);
 ```
 
 # --seed--

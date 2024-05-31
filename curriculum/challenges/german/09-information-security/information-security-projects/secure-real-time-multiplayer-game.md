@@ -11,16 +11,8 @@ dashedName: secure-real-time-multiplayer-game
 Entwickle ein 2D-Echtzeit-Multiplayer-Spiel mit der HTML-Canvas-API und Socket.io, das eine ähnliche Funktion besitzt wie diese: <a href="https://secure-real-time-multiplayer-game.freecodecamp.rocks/" target="_blank" rel="noopener noreferrer nofollow">https://secure-real-time-multiplayer-game.freecodecamp.rocks/</a>. Bei der Arbeit an diesem Projekt musst du deinen Code mit einer der folgenden Methoden schreiben:
 
 -   Klone <a href="https://github.com/freeCodeCamp/boilerplate-project-secure-real-time-multiplayer-game/" target="_blank" rel="noopener noreferrer nofollow">dieses GitHub repo</a> und vervollständige dein Projekt lokal.
--   Benutze <a href="https://replit.com/github/freeCodeCamp/boilerplate-project-secure-real-time-multiplayer-game" target="_blank" rel="noopener noreferrer nofollow">unser Replit-Starter-Projekt</a>, um dein Projekt zu vervollständigen.
+-   Use <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-project-secure-real-time-multiplayer-game/" target="_blank" rel="noopener noreferrer nofollow">our Gitpod starter project</a> to complete your project.
 -   Verwende einen Site-Builder deiner Wahl, um das Projekt abzuschließen. Achte darauf, alle Dateien von unserem GitHub-Repo zu integrieren.
-
-Wenn du Replit verwendest, folge diesen Schritten, um das Projekt einzurichten:
-
--   Beginne mit dem Importieren des Projekts in Replit.
--   Daraufhin wird ein `.replit`-Fenster angezeigt.
--   Wähle `Use run command` und klicke auf die `Done`-Schaltfläche.
-
-Wenn du fertig bist, stelle sicher, dass eine funktionierende Demo deines Projekts irgendwo öffentlich gehostet wird. Then submit the URL to it in the Solution Link field. Optionally, also submit a link to your project's source code in the GitHub Link field.
 
 # --instructions--
 
@@ -117,7 +109,7 @@ Die Spieler können mit einem Sammelgegenstand zusammenstoßen. Vervollständige
 
 ```
 
-Die `collision`-Methode sollte ein Sammelobjekt als Argument akzeptieren. If the player's avatar intersects with the item, the `collision` method should return `true`.
+Die `collision`-Methode sollte ein Sammelobjekt als Argument akzeptieren. Wenn sich der Avatar des Spielers mit dem Gegenstand überschneidet, sollte die `collision`-Methode `true` zurückgeben.
 
 ```js
 
@@ -135,7 +127,7 @@ Die Spieler können die Verbindung zum Spiel jederzeit unterbrechen.
 
 ```
 
-Prevent the client from trying to guess / sniff the MIME type.
+Verhindere, dass der Client versucht, den MIME-Typ zu erraten/auszuspähen.
 
 ```js
 async (getUserInput) => {
@@ -145,7 +137,7 @@ async (getUserInput) => {
 };
 ```
 
-Prevent cross-site scripting (XSS) attacks.
+Verhinderung von Cross-Site-Scripting (XSS)-Angriffen.
 
 ```js
 async (getUserInput) => {
@@ -171,7 +163,7 @@ async (getUserInput) => {
 };
 ```
 
-The headers say that the site is powered by "PHP 7.4.3" even though it isn't (as a security measure).
+In den Kopfzeilen steht, dass die Website mit "PHP 7.4.3" betrieben wird, obwohl das nicht der Fall ist (als Sicherheitsmaßnahme).
 
 ```js
 async (getUserInput) => {

@@ -16,7 +16,7 @@ dashedName: >-
 bird.name = "Duffy";
 ```
 
-因此，代碼的任何地方都可以輕鬆地將 `bird` 的 name 屬性更改爲任意值。 想想密碼和銀行賬戶之類的東西，如果代碼庫的任何部分都可以輕易改變他們。 那麼將會引起很多問題。
+因此，代碼的任何地方都可以輕鬆地將 `bird` 的 name 屬性更改爲任意值。 想想密碼和銀行賬戶之類的東西，如果代碼庫的任何部分都可以輕易改變它們， 那將會引起很多問題。
 
 使屬性私有化最簡單的方法就是在構造函數中創建變量。 可以將該變量範圍限定在構造函數中，而不是全局可用。 這樣，屬性只能由構造函數中的方法訪問和更改。
 
@@ -43,7 +43,7 @@ ducky.getHatchedEggCount();
 `weight` 屬性應該是一個私有變量，值應該是 `15`。
 
 ```js
-assert(code.match(/(var|let|const)\s+weight\s*\=\s*15\;?/g));
+assert(__helpers.removeJSComments(code).match(/(var|let|const)\s+weight\s*\=\s*15\;?/g));
 ```
 
 你的代碼應該在 `Bird` 中創建一個名爲 `getWeight` 方法，該方法返回私有變量 `weight`。
@@ -55,7 +55,7 @@ assert(new Bird().getWeight() === 15);
 你的 `getWeight` 函數應該返回私有變量 `weight`。
 
 ```js
-assert(code.match(/((return\s+)|(\(\s*\)\s*\=\>\s*))weight\;?/g));
+assert(__helpers.removeJSComments(code).match(/((return\s+)|(\(\s*\)\s*\=\>\s*))weight\;?/g));
 ```
 
 # --seed--

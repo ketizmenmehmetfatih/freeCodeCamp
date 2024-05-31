@@ -13,7 +13,7 @@ dashedName: comparisons-with-the-logical-or-operator
 
 <dfn>論理和</dfn>演算子は 2 本のパイプ記号 (`||`) で構成されます。 この記号のキーは通常、バックスペースキーと Enter キーの間近くにあります。
 
-次のようなパターンは以前のチャレンジでも登場しています。
+The pattern below should look familiar from prior waypoints.
 
 ```js
 if (num > 10) {
@@ -25,7 +25,7 @@ if (num < 5) {
 return "Yes";
 ```
 
-上の例は、`num` が `5` と `10` の間 (5 と 10 を含む) の場合のみ、`Yes` を返します。 同じロジックを次のように記述することができます。
+This code will return `Yes` if `num` is between `5` and `10` (`5` and `10` included). The same logic can be written with the <dfn>logical or</dfn> operator.
 
 ```js
 if (num > 10 || num < 5) {
@@ -43,13 +43,13 @@ return "Yes";
 `||`演算子を 1 回使用してください。
 
 ```js
-assert(code.match(/\|\|/g).length === 1);
+assert(__helpers.removeJSComments(code).match(/\|\|/g).length === 1);
 ```
 
 `if` ステートメントを 1 つだけにする必要があります。
 
 ```js
-assert(code.match(/if/g).length === 1);
+assert(__helpers.removeJSComments(code).match(/if/g).length === 1);
 ```
 
 `testLogicalOr(0)` は文字列 `Outside` を返す必要があります。

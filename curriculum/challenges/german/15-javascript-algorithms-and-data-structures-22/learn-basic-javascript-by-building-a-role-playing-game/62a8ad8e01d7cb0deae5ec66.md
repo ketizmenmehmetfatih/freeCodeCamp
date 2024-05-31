@@ -1,47 +1,47 @@
 ---
 id: 62a8ad8e01d7cb0deae5ec66
-title: Step 56
+title: Step 57
 challengeType: 0
-dashedName: step-56
+dashedName: step-57
 ---
 
 # --description--
 
-Create another property in your object called `button functions`. Give this property an array containing the three functions assigned to the `onclick` properties in the `goTown` function. Remember that these functions are variables, not strings, and should not be wrapped in quotes.
+Erstelle in deinem Objekt eine weitere Eigenschaft namens `button functions`. Gib dieser Eigenschaft ein Array, das die drei Funktionen enthält, die den `onclick`-Eigenschaften in der `goTown`-Funktion zugewiesen wurden. Denke daran, dass diese Funktionen Variablen und keine Zeichenketten sind und, dass sie nicht zwischen Anführungzeichen stehen sollten.
 
 # --hints--
 
-Your first `locations` object should have a `button functions` property.
+Dein erstes `locations`-Objekt sollte eine `button functions`-Eigenschaft haben.
 
 ```js
 assert.isDefined(locations[0]["button functions"]);
 ```
 
-Your `button functions` property should be an array.
+Deine `button functions`-Eigenschaft sollte ein Array sein.
 
 ```js
 assert.isArray(locations[0]["button functions"]);
 ```
 
-Your `button functions` property should have three values in it.
+Deine `button functions`-Eigenschaft sollte drei Werte enthalten.
 
 ```js
 assert.lengthOf(locations[0]["button functions"], 3);
 ```
 
-Your first `button functions` array value should be the function `goStore`.
+Dein erster `button functions`-Arraywert sollte die Funktion `goStore` sein.
 
 ```js
 assert.equal(locations[0]["button functions"][0], goStore);
 ```
 
-Your second `button functions` array value should be the function `goCave`.
+Dein zweiter `button functions`-Arraywert sollte die Funktion `goCave` sein.
 
 ```js
 assert.equal(locations[0]["button functions"][1], goCave);
 ```
 
-Your third `button functions` array value should be the function `fightDragon`.
+Dein dritter `button functions`-Arraywert sollte die Funktion `fightDragon` sein.
 
 ```js
 assert.equal(locations[0]["button functions"][2], fightDragon);
@@ -54,72 +54,81 @@ assert.equal(locations[0]["button functions"][2], fightDragon);
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="./styles.css">
     <title>RPG - Dragon Repeller</title>
-</head>
-<body>
+  </head>
+  <body>
     <div id="game">
-        <div id="stats">
-            <span class="stat">XP: <strong><span id="xpText">0</span></strong></span>
-            <span class="stat">Health: <strong><span id="healthText">100</span></strong></span>
-            <span class="stat">Gold: <strong><span id="goldText">50</span></strong></span>
-        </div>
-        <div id="controls">
-            <button id="button1">Go to store</button>
-            <button id="button2">Go to cave</button>
-            <button id="button3">Fight dragon</button>
-        </div>
-        <div id="monsterStats">
-            <span class="stat">Monster Name: <strong><span id="monsterName"></span></strong></span>
-            <span class="stat">Health: <strong><span id="monsterHealth"></span></strong></span>
-        </div>
-        <div id="text">
-            Welcome to Dragon Repeller. You must defeat the dragon that is preventing people from leaving the town. You are in the town square. Where do you want to go? Use the buttons above.
-        </div>
+      <div id="stats">
+        <span class="stat">XP: <strong><span id="xpText">0</span></strong></span>
+        <span class="stat">Health: <strong><span id="healthText">100</span></strong></span>
+        <span class="stat">Gold: <strong><span id="goldText">50</span></strong></span>
+      </div>
+      <div id="controls">
+        <button id="button1">Go to store</button>
+        <button id="button2">Go to cave</button>
+        <button id="button3">Fight dragon</button>
+      </div>
+      <div id="monsterStats">
+        <span class="stat">Monster Name: <strong><span id="monsterName"></span></strong></span>
+        <span class="stat">Health: <strong><span id="monsterHealth"></span></strong></span>
+      </div>
+      <div id="text">
+        Welcome to Dragon Repeller. You must defeat the dragon that is preventing people from leaving the town. You are in the town square. Where do you want to go? Use the buttons above.
+      </div>
     </div>
     <script src="./script.js"></script>
-</body>
+  </body>
 </html>
 ```
 
 ```css
 body {
-    background-color: darkblue;
+  background-color: #0a0a23;
 }
 
 #text {
-    background-color: black;
-    color: white;
-    padding: 10px;
+  background-color: #0a0a23;
+  color: #ffffff;
+  padding: 10px;
 }
 
 #game {
-    max-width: 500px;
-    max-height: 400px;
-    background-color: lightgray;
-    color: white;
-    margin: 0 auto;
-    padding: 10px;
+  max-width: 500px;
+  max-height: 400px;
+  background-color: #ffffff;
+  color: #ffffff;
+  margin: 30px auto 0px;
+  padding: 10px;
 }
 
-#controls, #stats {
-    border: 1px solid black;
-    padding: 5px;
-    color: black;
+#controls,
+#stats {
+  border: 1px solid #0a0a23;
+  padding: 5px;
+  color: #0a0a23;
 }
 
 #monsterStats {
-    display: none;
-    border: 1px solid black;
-    padding: 5px;
-    color: white;
-    background-color: red;
+  display: none;
+  border: 1px solid #0a0a23;
+  padding: 5px;
+  color: #ffffff;
+  background-color: #c70d0d;
 }
 
 .stat {
-    padding-right: 10px;
+  padding-right: 10px;
+}
+
+button {
+  cursor: pointer;
+  color: #0a0a23;
+  background-color: #feac32;
+  background-image: linear-gradient(#fecc4c, #ffac33);
+  border: 3px solid #feac32;
 }
 ```
 
@@ -127,7 +136,7 @@ body {
 let xp = 0;
 let health = 100;
 let gold = 50;
-let currentWeapon = 0;
+let currentWeaponIndex = 0;
 let fighting;
 let monsterHealth;
 let inventory = ["stick"];
@@ -141,13 +150,13 @@ const healthText = document.querySelector("#healthText");
 const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
-const monsterHealthText =document.querySelector("#monsterHealth");
+const monsterHealthText = document.querySelector("#monsterHealth");
 --fcc-editable-region--
 const locations = [
-    {
-        name: "town square",
-        "button text": ["Go to store", "Go to cave", "Fight dragon"]
-    }
+  {
+    name: "town square",
+    "button text": ["Go to store", "Go to cave", "Fight dragon"]
+  }
 ];
 --fcc-editable-region--
 

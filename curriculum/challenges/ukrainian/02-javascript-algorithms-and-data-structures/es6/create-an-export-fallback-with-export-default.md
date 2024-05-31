@@ -24,7 +24,7 @@ export default function(x, y) {
 }
 ```
 
-Першою є іменована функція, а другою – анонімна.
+Першою є іменована функція, а другою — анонімна.
 
 Оскільки `export default` використовується для оголошення резервного значення для модуля або файлу, лише одне значення може бути експортоване за замовчуванням у кожному модулі або файлі. Крім того, ви не можете використати `export default` з `var`, `let` чи `const`
 
@@ -38,7 +38,7 @@ export default function(x, y) {
 
 ```js
 assert(
-  code.match(
+  __helpers.removeJSComments(code).match(
     /export\s+default\s+function(\s+subtract\s*|\s*)\(\s*x,\s*y\s*\)\s*{/g
   )
 );

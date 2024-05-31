@@ -1,11 +1,13 @@
-import { Grid } from '@freecodecamp/react-bootstrap';
 import React, { useRef } from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import envData from '../../../config/env.json';
+import { Container } from '@freecodecamp/ui';
+
+import store from 'store';
+import envData from '../../config/env.json';
 import { createFlashMessage } from '../components/Flash/redux';
 import { Loader, Spacer } from '../components/helpers';
 import Certification from '../components/settings/certification';
@@ -16,7 +18,7 @@ import Honesty from '../components/settings/honesty';
 import Internet, { Socials } from '../components/settings/internet';
 import Portfolio from '../components/settings/portfolio';
 import Privacy from '../components/settings/privacy';
-import { Themes } from '../components/settings/theme';
+import { type ThemeProps, Themes } from '../components/settings/theme';
 import UserToken from '../components/settings/user-token';
 import { hardGoTo as navigate } from '../redux/actions';
 import {
@@ -37,17 +39,15 @@ import {
   updateMyKeyboardShortcuts,
   verifyCert
 } from '../redux/settings/actions';
-
 const { apiLocation } = envData;
 
 // TODO: update types for actions
-interface ShowSettingsProps {
+type ShowSettingsProps = Pick<ThemeProps, 'toggleNightMode'> & {
   createFlashMessage: typeof createFlashMessage;
   isSignedIn: boolean;
   navigate: (location: string) => void;
   showLoading: boolean;
   submitNewAbout: () => void;
-  toggleNightMode: (theme: Themes) => void;
   toggleSoundMode: (sound: boolean) => void;
   toggleKeyboardShortcuts: (keyboardShortcuts: boolean) => void;
   updateSocials: (formValues: Socials) => void;
@@ -55,10 +55,10 @@ interface ShowSettingsProps {
   updatePortfolio: () => void;
   updateQuincyEmail: (isSendQuincyEmail: boolean) => void;
   user: User;
-  verifyCert: () => void;
+  verifyCert: typeof verifyCert;
   path?: string;
   userToken: string | null;
-}
+};
 
 const mapStateToProps = createSelector(
   signInLoadingSelector,
@@ -117,15 +117,16 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
       isDataAnalysisPyCertV7,
       isMachineLearningPyCertV7,
       isRelationalDatabaseCertV8,
+      isCollegeAlgebraPyCertV8,
+      isFoundationalCSharpCertV8,
+      isJsAlgoDataStructCertV8,
       isEmailVerified,
       isHonest,
       sendQuincyEmail,
       username,
       about,
       picture,
-      points,
       theme,
-      sound,
       keyboardShortcuts,
       location,
       name,
@@ -154,14 +155,19 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
     navigate(`${apiLocation}/signin`);
     return <Loader fullScreen={true} />;
   }
-
+  const sound = (store.get('fcc-sound') as boolean) ?? false;
   return (
     <>
       <Helmet title={`${t('buttons.settings')} | freeCodeCamp.org`} />
-      <Grid>
+      <Container>
         <main>
-          <Spacer size={2} />
-          <h1 className='text-center' style={{ overflowWrap: 'break-word' }}>
+          <Spacer size='large' />
+          <h1
+            id='content-start'
+            className='text-center'
+            style={{ overflowWrap: 'break-word' }}
+            data-playwright-test-label='settings-heading'
+          >
             {t('settings.for', { username: username })}
           </h1>
           <About
@@ -170,7 +176,6 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             location={location}
             name={name}
             picture={picture}
-            points={points}
             sound={sound}
             keyboardShortcuts={keyboardShortcuts}
             submitNewAbout={submitNewAbout}
@@ -179,16 +184,16 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             toggleKeyboardShortcuts={toggleKeyboardShortcuts}
             username={username}
           />
-          <Spacer />
+          <Spacer size='medium' />
           <Privacy />
-          <Spacer />
+          <Spacer size='medium' />
           <Email
             email={email}
             isEmailVerified={isEmailVerified}
             sendQuincyEmail={sendQuincyEmail}
             updateQuincyEmail={updateQuincyEmail}
           />
-          <Spacer />
+          <Spacer size='medium' />
           <Internet
             githubProfile={githubProfile}
             linkedin={linkedin}
@@ -196,12 +201,11 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             updateSocials={updateSocials}
             website={website}
           />
-          <Spacer />
-          {/* @ts-expect-error Portfolio types mismatch */}
+          <Spacer size='medium' />
           <Portfolio portfolio={portfolio} updatePortfolio={updatePortfolio} />
-          <Spacer />
+          <Spacer size='medium' />
           <Honesty isHonest={isHonest} updateIsHonest={updateIsHonest} />
-          <Spacer />
+          <Spacer size='medium' />
           <Certification
             completedChallenges={completedChallenges}
             createFlashMessage={createFlashMessage}
@@ -210,6 +214,8 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             isBackEndCert={isBackEndCert}
             isDataAnalysisPyCertV7={isDataAnalysisPyCertV7}
             isDataVisCert={isDataVisCert}
+            isCollegeAlgebraPyCertV8={isCollegeAlgebraPyCertV8}
+            isFoundationalCSharpCertV8={isFoundationalCSharpCertV8}
             isFrontEndCert={isFrontEndCert}
             isFrontEndLibsCert={isFrontEndLibsCert}
             isFullStackCert={isFullStackCert}
@@ -222,19 +228,21 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
             isRelationalDatabaseCertV8={isRelationalDatabaseCertV8}
             isRespWebDesignCert={isRespWebDesignCert}
             isSciCompPyCertV7={isSciCompPyCertV7}
+            isJsAlgoDataStructCertV8={isJsAlgoDataStructCertV8}
             username={username}
             verifyCert={verifyCert}
+            isEmailVerified={isEmailVerified}
           />
           {userToken && (
             <>
-              <Spacer />
+              <Spacer size='medium' />
               <UserToken />
             </>
           )}
-          <Spacer />
+          <Spacer size='medium' />
           <DangerZone />
         </main>
-      </Grid>
+      </Container>
     </>
   );
 }

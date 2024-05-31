@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 ```
 
-Du kannst Event-Handler implementieren, die innerhalb der `DOMContentLoaded` -Funktion laufen. Du kannst ein `onclick` Event-Handler implementieren, der ausgelöst wird, wenn der Nutzer auf das Element mit der ID `getMessage` klickt, indem du den folgenden Code hinzufügst:
+Du kannst Event-Handler implementieren, die innerhalb der `DOMContentLoaded` -Funktion laufen. Du kannst einen `onclick`-Event-Handler implementieren, der ausgelöst wird, wenn der Nutzer auf das Element `#getMessage` klickt, indem du den folgenden Code hinzufügst:
 
 ```js
 document.getElementById('getMessage').onclick = function(){};
@@ -28,7 +28,7 @@ Füge ein Klick-Event-Handler innerhalb der `DOMContentLoaded`-Funktion für das
 
 # --hints--
 
-Dein Code sollte die `document.getElementById`-Methode verwenden, um das `getMessage`-Element auszuwählen.
+Dein Code sollte die `document.getElementById`-Methode verwenden, um das Element auszuwählen, dessen ID `getMessage` entspricht.
 
 ```js
 assert(code.match(/document\s*\.getElementById\(\s*?('|")getMessage\1\s*?\)/g));

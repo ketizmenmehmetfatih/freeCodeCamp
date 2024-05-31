@@ -28,7 +28,13 @@ const maximus = Math.max(...arr);
 
 `maximus` 的值应该是 `89`。
 
-`...arr` 返回一个解压的数组。 也就是说，它*展开*数组。 然而，展开操作符只能够在函数的参数中或者数组中使用。 下面的代码将会报错：
+`...arr` 返回一个解压缩的数组。 换句话说，它展开了数组。 然而，展开操作符只能够在函数的参数中或者数组中使用。 例如：
+
+```js
+const spreaded = [...arr];
+```
+
+下面的代码将不能运行：
 
 ```js
 const spreaded = ...arr;
@@ -36,7 +42,7 @@ const spreaded = ...arr;
 
 # --instructions--
 
-使用展开操作符将 `arr1` 中的内容都复制到 `arr2` 中去。
+使用展开操作符将 `arr1` 中的全部内容复制到另一个数组 `arr2` 中。
 
 # --hints--
 
@@ -49,7 +55,7 @@ assert(arr2.every((v, i) => v === arr1[i]) && arr2.length);
 应使用展开操作符 `...` 来复制 `arr1`。
 
 ```js
-assert(code.match(/Array\(\s*\.\.\.arr1\s*\)|\[\s*\.\.\.arr1\s*\]/));
+assert(__helpers.removeJSComments(code).match(/Array\(\s*\.\.\.arr1\s*\)|\[\s*\.\.\.arr1\s*\]/));
 ```
 
 当 `arr1` 改变的时候，`arr2` 应保持不变。

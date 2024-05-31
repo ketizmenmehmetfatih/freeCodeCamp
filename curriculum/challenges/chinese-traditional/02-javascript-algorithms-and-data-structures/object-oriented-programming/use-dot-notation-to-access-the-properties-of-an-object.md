@@ -8,7 +8,7 @@ dashedName: use-dot-notation-to-access-the-properties-of-an-object
 
 # --description--
 
-最後一個挑戰創建了一個具有各種屬性的對象。 現在你會看到如何訪問這些屬性的值。 下面是一個示例：
+上一個挑戰創建了一個具有各種屬性的對象。 現在你會看到如何訪問這些屬性的值。 下面是一個示例：
 
 ```js
 let duck = {
@@ -29,13 +29,13 @@ console.log(duck.name);
 你應該使用 `console.log` 來將 `dog` 對象的 `name` 屬性值輸出到控制檯。
 
 ```js
-assert(/console.log\(.*dog\.name.*\)/g.test(code));
+assert(/console.log\(.*dog\.name.*\)/g.test(__helpers.removeJSComments(code)));
 ```
 
 你應該使用 `console.log` 來將 `dog` 對象的 `numLegs` 屬性值輸出到控制檯。
 
 ```js
-assert(/console.log\(.*dog\.numLegs.*\)/g.test(code));
+assert(/console.log\(.*dog\.numLegs.*\)/g.test(__helpers.removeJSComments(code)));
 ```
 
 # --seed--

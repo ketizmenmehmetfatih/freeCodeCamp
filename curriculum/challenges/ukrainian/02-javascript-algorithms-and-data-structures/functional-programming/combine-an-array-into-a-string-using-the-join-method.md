@@ -8,7 +8,7 @@ dashedName: combine-an-array-into-a-string-using-the-join-method
 
 # --description--
 
-Метод `join` використовують, щоб об'єднати елементи масиву та створити з них рядок. Він приймає потрібний аргумент для розділювача, який використовується для відокремлення елементів масиву у рядку.
+Метод `join` використовують, щоб об’єднати елементи масиву та створити з них рядок. Він приймає потрібний аргумент для розділювача, який використовується для відокремлення елементів масиву у рядку.
 
 Ось приклад:
 
@@ -27,13 +27,13 @@ const str = arr.join(" ");
 Ваш код повинен використовувати метод `join`.
 
 ```js
-assert(code.match(/\.join/g));
+assert(__helpers.removeJSComments(code).match(/\.join/g));
 ```
 
 Ваш код не повинен використовувати метод `replace`.
 
 ```js
-assert(!code.match(/\.?[\s\S]*?replace/g));
+assert(!__helpers.removeJSComments(code).match(/\.?[\s\S]*?replace/g));
 ```
 
 `sentensify("May-the-force-be-with-you")` має повертати рядок.

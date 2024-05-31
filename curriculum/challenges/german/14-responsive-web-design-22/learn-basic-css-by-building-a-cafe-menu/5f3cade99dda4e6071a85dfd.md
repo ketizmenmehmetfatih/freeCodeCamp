@@ -11,25 +11,25 @@ Du wirst in ein paar Schritten auf die Gestaltung der Speisekarte zurückkommen,
 
 # --hints--
 
-You should have an opening `section` tag.
+Du solltest ein öffnendes `section`-Tag haben.
 
 ```js
 assert(code.match(/<section>/ig).length === 2);
 ```
 
-You should have a closing `section` tag.
+Du solltest ein schließendes `section`-Tag haben.
 
 ```js
 assert(code.match(/<\/section>/ig).length === 2);
 ```
 
-You should not change the existing `main` element.
+Du solltest das vorhandene `main`-Element nicht ändern.
 
 ```js
 assert($('main').length === 1);
 ```
 
-Your new `section` element should be nested in the `main` element.
+Dein neues `section`-Element sollte im `main`-Element verschachtelt sein.
 
 ```js
 assert($('main').children('section').length === 2);

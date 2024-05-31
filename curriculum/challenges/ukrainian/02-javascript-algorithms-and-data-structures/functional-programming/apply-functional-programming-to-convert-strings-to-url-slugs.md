@@ -12,7 +12,7 @@ dashedName: apply-functional-programming-to-convert-strings-to-url-slugs
 
 Об’єднаємо вивчене, щоб розв’язати практичне завдання.
 
-Багато сайтів керування вмістом (CMS) додають заголовки дописів до частини URL в цілях соціальних закладок. Наприклад, якщо ви напишете середній допис під назвою `Stop Using Reduce`, ймовірно, URL міститиме заголовок (`.../stop-using-reduce`). Можливо, ви вже помітили це на сайті freeCodeCamp.
+Багато сайтів керування вмістом (CMS) додають заголовки дописів до частини URL в цілях закладок. Наприклад, якщо ви напишете середній допис під назвою `Stop Using Reduce`, ймовірно, URL міститиме заголовок (`.../stop-using-reduce`). Можливо, ви вже помітили це на сайті freeCodeCamp.
 
 # --instructions--
 
@@ -31,7 +31,7 @@ dashedName: apply-functional-programming-to-convert-strings-to-url-slugs
 Ваш код не повинен використовувати метод `replace` у цьому завданні.
 
 ```js
-assert(!code.match(/\.?[\s\S]*?replace/g));
+assert(!__helpers.removeJSComments(code).match(/\.?[\s\S]*?replace/g));
 ```
 
 `urlSlug("Winter Is Coming")` має повертати рядок `winter-is-coming`.

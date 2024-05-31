@@ -16,7 +16,13 @@ dashedName: pass-an-array-as-props
 </ParentComponent>
 ```
 
-これで、子コンポーネントから配列プロパティ `colors` にアクセスできます。 プロパティにアクセスするときは `join()` などの配列メソッドを使用できます: `const ChildComponent = (props) => <p>{props.colors.join(', ')}</p>`。これで、`colors` 配列のすべてのアイテムがコンマ区切りの文字列に結合され、`<p>green, blue, red</p>` が生成されます。あとで、React でデータの配列をレンダーする他の一般的な方法について説明します。
+これで、子コンポーネントから配列プロパティ `colors` にアクセスできます。 プロパティにアクセスするときは `join()` などの配列メソッドを使用できます:
+
+```jsx
+const ChildComponent = (props) => <p>{props.colors.join(', ')}</p>
+```
+
+これは `colors` 配列のアイテムすべてをコンマ区切りの文字列に連結し、 `<p>green, blue, red</p>` という文字列を生成します。 後ほど、React で配列データをレンダーする一般的な方法を他にもいくつか学習します。
 
 # --instructions--
 

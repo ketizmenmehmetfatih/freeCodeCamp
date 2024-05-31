@@ -30,32 +30,25 @@ cities.splice(3, 1);
 你的代码中应使用 `slice` 方法。
 
 ```js
-assert(code.match(/\.slice/g));
+assert(__helpers.removeJSComments(code).match(/\.slice/g));
 ```
 
 不能使用 `splice` 方法。
 
 ```js
-assert(!code.match(/\.?[\s\S]*?splice/g));
+assert(!__helpers.removeJSComments(code).match(/\.?[\s\S]*?splice/g));
 ```
 
-不能改变 `inputCities` 数组。
+你不应该改变传递给函数的原始数组。
 
 ```js
-assert(
-  JSON.stringify(inputCities) ===
-    JSON.stringify(['Chicago', 'Delhi', 'Islamabad', 'London', 'Berlin'])
-);
+assert.deepEqual(_inputCities, ["Chicago", "Delhi", "Islamabad", "London", "Berlin"]);
 ```
 
 `nonMutatingSplice(["Chicago", "Delhi", "Islamabad", "London", "Berlin"])` 应返回 `["Chicago", "Delhi", "Islamabad"]`。
 
 ```js
-assert(
-  JSON.stringify(
-    nonMutatingSplice(['Chicago', 'Delhi', 'Islamabad', 'London', 'Berlin'])
-  ) === JSON.stringify(['Chicago', 'Delhi', 'Islamabad'])
-);
+assert.deepEqual(nonMutatingSplice(_inputCities), ["Chicago", "Delhi", "Islamabad"]);
 ```
 
 # --seed--
@@ -64,14 +57,15 @@ assert(
 
 ```js
 function nonMutatingSplice(cities) {
-  // Only change code below this line
+
   return cities.splice(3);
-
-  // Only change code above this line
 }
+```
 
-const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
-nonMutatingSplice(inputCities);
+## --after-user-code--
+
+```js
+const _inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
 ```
 
 # --solutions--
@@ -80,5 +74,4 @@ nonMutatingSplice(inputCities);
 function nonMutatingSplice(cities) {
   return cities.slice(0,3);
 }
-const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
 ```

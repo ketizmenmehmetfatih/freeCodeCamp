@@ -4,9 +4,8 @@ const { createFilePath } = require('gatsby-source-filesystem');
 const uniq = require('lodash/uniq');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const webpack = require('webpack');
-const env = require('../config/env.json');
+const env = require('./config/env.json');
 
-const { blockNameify } = require('../utils/block-nameify');
 const {
   createChallengePages,
   createBlockIntroPages,
@@ -75,15 +74,32 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
             edges {
               node {
                 challenge {
+                  audioPath
                   block
                   certification
                   challengeType
+                  dashedName
+                  disableLoopProtectTests
+                  disableLoopProtectPreview
                   fields {
                     slug
+                    blockHashSlug
+                  }
+                  fillInTheBlank {
+                    sentence
+                    blanks {
+                      answer
+                      feedback
+                    }
                   }
                   hasEditableBoundaries
                   id
+                  msTrophyId
                   order
+                  prerequisites {
+                    id
+                    title
+                  }
                   required {
                     link
                     src
@@ -107,6 +123,41 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
                   superOrder
                   template
                   usesMultifileEditor
+                  scene {
+                    setup {
+                      background
+                      characters {
+                        character
+                        position {
+                          x
+                          y
+                          z
+                        }
+                      }
+                      audio {
+                        filename
+                        startTime
+                        startTimestamp
+                        finishTimestamp
+                      }
+                      alwaysShowDialogue
+                    }
+                    commands {
+                      background
+                      character
+                      position {
+                        x
+                        y
+                        z
+                      }
+                      startTime
+                      finishTime
+                      dialogue {
+                        text
+                        align
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -151,7 +202,7 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
               }
             }) => block
           )
-        ).map(block => blockNameify(block));
+        );
 
         const superBlocks = uniq(
           result.data.allChallengeNode.edges.map(
@@ -247,15 +298,6 @@ exports.onCreateBabelConfig = ({ actions }) => {
   actions.setBabelPlugin({
     name: '@babel/plugin-proposal-export-default-from'
   });
-  actions.setBabelPlugin({
-    name: 'babel-plugin-transform-imports',
-    options: {
-      '@freecodecamp/react-bootstrap': {
-        transform: '@freecodecamp/react-bootstrap/lib/${member}',
-        preventFullImport: true
-      }
-    }
-  });
 };
 
 exports.onCreatePage = async ({ page, actions }) => {
@@ -279,10 +321,15 @@ exports.createSchemaCustomization = ({ actions }) => {
       challenge: Challenge
     }
     type Challenge {
+      audioPath: String
       challengeFiles: [FileContents]
       notes: String
       url: String
       assignments: [String]
+      prerequisites: [PrerequisiteChallenge]
+      msTrophyId: String
+      fillInTheBlank: FillInTheBlank
+      scene: Scene
     }
     type FileContents {
       fileKey: String
@@ -292,6 +339,57 @@ exports.createSchemaCustomization = ({ actions }) => {
       head: String
       tail: String
       editableRegionBoundaries: [Int]
+    }
+    type PrerequisiteChallenge {
+      id: String
+      title: String
+    }
+    type FillInTheBlank {
+      sentence: String
+      blanks: [Blank]
+    }
+    type Blank {
+      answer: String
+      feedback: String
+    }
+    type Scene {
+      setup: SceneSetup
+      commands: [SceneCommands]
+    }
+    type SceneSetup {
+      background: String
+      characters: [SetupCharacter]
+      audio: SetupAudio
+      alwaysShowDialogue: Boolean
+    }
+    type SetupCharacter {
+      character: String
+      position: CharacterPosition
+      opacity: Float
+    }
+    type SetupAudio {
+      filename: String
+      startTime: Float
+      startTimestamp: Float
+      finishTimestamp: Float
+    }
+    type SceneCommands {
+      background: String
+      character: String
+      position: CharacterPosition
+      opacity: Float
+      startTime: Float
+      finishTime: Float
+      dialogue: Dialogue
+    }
+    type Dialogue {
+      text: String
+      align: String
+    }
+    type CharacterPosition {
+      x: Float
+      y: Float
+      z: Float
     }
   `;
   createTypes(typeDefs);

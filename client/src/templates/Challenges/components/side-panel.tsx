@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Test } from '../../../redux/prop-types';
 
-import { mathJaxScriptLoader } from '../../../utils/script-loaders';
+import { SuperBlocks } from '../../../../../shared/config/superblocks';
+import { initializeMathJax } from '../../../utils/math-jax';
 import { challengeTestsSelector } from '../redux/selectors';
 import TestSuite from './test-suite';
 import ToolPanel from './tool-panel';
@@ -23,6 +24,7 @@ interface SidePanelProps {
   guideUrl: string;
   instructionsPanelRef: React.RefObject<HTMLDivElement>;
   showToolPanel: boolean;
+  superBlock: SuperBlocks;
   tests: Test[];
   videoUrl: string;
 }
@@ -34,41 +36,17 @@ export function SidePanel({
   guideUrl,
   instructionsPanelRef,
   showToolPanel = false,
+  superBlock,
   tests,
   videoUrl
 }: SidePanelProps): JSX.Element {
   useEffect(() => {
-    const MathJax = global.MathJax;
-    const mathJaxMountPoint = document.querySelector('#mathjax');
     const mathJaxChallenge =
-      block === 'rosetta-code' ||
-      block === 'project-euler' ||
+      superBlock === SuperBlocks.RosettaCode ||
+      superBlock === SuperBlocks.ProjectEuler ||
       block === 'intermediate-algorithm-scripting';
-    if (MathJax) {
-      // Configure MathJax when it's loaded and
-      // users navigate from another challenge
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [
-            ['$', '$'],
-            ['\\(', '\\)']
-          ],
-          processEscapes: true,
-          processClass:
-            'rosetta-code|project-euler|intermediate-algorithm-scripting'
-        }
-      });
-      MathJax.Hub.Queue([
-        'Typeset',
-        MathJax.Hub,
-        document.querySelector('.intermediate-algorithm-scripting'),
-        document.querySelector('.rosetta-code'),
-        document.querySelector('.project-euler')
-      ]);
-    } else if (!mathJaxMountPoint && mathJaxChallenge) {
-      mathJaxScriptLoader();
-    }
-  }, [block]);
+    initializeMathJax(mathJaxChallenge);
+  }, [block, superBlock]);
 
   return (
     <div

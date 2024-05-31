@@ -45,58 +45,58 @@ Cambiare le istruzioni `if`/`else if` concatenate con un'istruzione `switch`.
 Non dovresti usare nessuna istruzione `else` nell'editor
 
 ```js
-assert(!/else/g.test(code));
+assert(!/else/g.test(__helpers.removeJSComments(code)));
 ```
 
 Non dovresti usare nessuna istruzione `if` nell'editor
 
 ```js
-assert(!/if/g.test(code));
+assert(!/if/g.test(__helpers.removeJSComments(code)));
 ```
 
 Dovresti avere almeno quattro istruzioni `break`
 
 ```js
-assert(code.match(/break/g).length >= 4);
+assert(__helpers.removeJSComments(code).match(/break/g).length >= 4);
 ```
 
-`chainToSwitch("bob")` dovrebbe essere la stringa `Marley`
+`chainToSwitch("bob")` dovrebbe restituire la stringa `Marley`
 
 ```js
 assert(chainToSwitch('bob') === 'Marley');
 ```
 
-`chainToSwitch(42)` dovrebbe essere la stringa `The Answer`
+`chainToSwitch(42)` dovrebbe restituire la stringa `The Answer`
 
 ```js
 assert(chainToSwitch(42) === 'The Answer');
 ```
 
-`chainToSwitch(1)` dovrebbe essere la stringa `There is no #1`
+`chainToSwitch(1)` dovrebbe restituire la stringa `There is no #1`
 
 ```js
 assert(chainToSwitch(1) === 'There is no #1');
 ```
 
-`chainToSwitch(99)` dovrebbe essere la stringa `Missed me by this much!`
+`chainToSwitch(99)` dovrebbe restituire la stringa `Missed me by this much!`
 
 ```js
 assert(chainToSwitch(99) === 'Missed me by this much!');
 ```
 
-`chainToSwitch(7)` dovrebbe essere la stringa `Ate Nine`
+`chainToSwitch(7)` dovrebbe restituire la stringa `Ate Nine`
 
 ```js
 assert(chainToSwitch(7) === 'Ate Nine');
 ```
 
-`chainToSwitch("John")` dovrebbe essere `""` (stringa vuota)
+`chainToSwitch("John")` dovrebbe restituire `""` (stringa vuota)
 
 ```js
 assert(chainToSwitch('John') === '');
 ```
 
-`chainToSwitch(156)` dovrebbe essere `""` (stringa vuota)
+`chainToSwitch(156)` dovrebbe restituire `""` (stringa vuota)
 
 ```js
 assert(chainToSwitch(156) === '');

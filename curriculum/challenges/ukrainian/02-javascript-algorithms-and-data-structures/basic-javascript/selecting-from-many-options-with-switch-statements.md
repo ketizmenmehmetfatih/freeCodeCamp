@@ -9,17 +9,17 @@ dashedName: selecting-from-many-options-with-switch-statements
 
 # --description--
 
-Якщо ви маєте багато варіантів для вибору, використовуйте інструкцію <dfn>switch</dfn>. Інструкція `switch` тестує значення та може мати багато інструкцій <dfn>case</dfn>, які визначають можливі значення. Інструкції виконуються від першого відповідного значення `case` до тих пір, поки не зіткнуться із `break`.
+Якщо вам потрібно зіставити одне значення з багатьма варіантами, ви можете використати інструкцію <dfn>switch</dfn>. Інструкція `switch` порівнює значення з інструкціями <dfn>case</dfn>, які визначають різні можливі значення. Будь-які дійсні інструкції JavaScript можуть бути виконані всередині блоку <dfn>case</dfn> та виконуватимуться з першого зіставленого значення `case`, доки не зустрінеться `break`.
 
 Ось приклад інструкції `switch`:
 
 ```js
-switch (lowercaseLetter) {
-  case "a":
-    console.log("A");
+switch (fruit) {
+  case "apple":
+    console.log("The fruit is an apple");
     break;
-  case "b":
-    console.log("B");
+  case "orange":
+    console.log("The fruit is an orange");
     break;
 }
 ```
@@ -63,13 +63,13 @@ assert(caseInSwitch(4) === 'delta');
 Ви не повинні використовувати інструкції `if` чи `else`
 
 ```js
-assert(!/else/g.test(code) || !/if/g.test(code));
+assert(!/else/g.test(__helpers.removeJSComments(code)) || !/if/g.test(__helpers.removeJSComments(code)));
 ```
 
 Ви повинні мати принаймні 3 інструкції `break`
 
 ```js
-assert(code.match(/break/g).length > 2);
+assert(__helpers.removeJSComments(code).match(/break/g).length > 2);
 ```
 
 # --seed--

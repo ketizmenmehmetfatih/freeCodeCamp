@@ -8,18 +8,13 @@ dashedName: demographic-data-analyzer
 
 # --description--
 
-Estarás <a href="https://replit.com/github/freeCodeCamp/boilerplate-demographic-data-analyzer" target="_blank" rel="noopener noreferrer nofollow">trabajando en este proyecto con nuestro código inicial en Replit</a>.
-
--   Start by importing the project on Replit.
--   Next, you will see a `.replit` window.
--   Select `Use run command` and click the `Done` button.
-
+You will be <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-demographic-data-analyzer/" target="_blank" rel="noopener noreferrer nofollow">working on this project with our Gitpod starter code</a>.
 
 Todavía estamos desarrollando la parte interactiva del currículo de Python. Por el momento, aquí hay algunos videos en el canal de YouTube de freeCodeCamp.org que te enseñaran todo lo que necesitas saber para completar este proyecto:
 
-- <a href="https://www.freecodecamp.org/news/python-for-everybody/" target="_blank" rel="noopener noreferrer nofollow">Python for Everybody Video Course</a> (14 hours)
+- <a href="https://www.freecodecamp.org/news/python-for-everybody/" target="_blank" rel="noopener noreferrer nofollow">Curso en video Python para todos</a> (14 horas)
 
-- <a href="https://www.freecodecamp.org/news/how-to-analyze-data-with-python-pandas/" target="_blank" rel="noopener noreferrer nofollow">How to Analyze Data with Python Pandas</a> (10 hours)
+- <a href="https://www.freecodecamp.org/news/how-to-analyze-data-with-python-pandas/" target="_blank" rel="noopener noreferrer nofollow">Como analizar datos con Python y Pandas</a> (10 horas)
 
 # --instructions--
 
@@ -37,27 +32,25 @@ En este desafío debe analizar los datos demográficos usando Pandas. Se le da u
 
 Debes usar Pandas para responder a las siguientes preguntas:
 
-- How many people of each race are represented in this dataset? This should be a Pandas series with race names as the index labels. (`race` column)
-- What is the average age of men?
-- What is the percentage of people who have a Bachelor's degree?
-- What percentage of people with advanced education (`Bachelors`, `Masters`, or `Doctorate`) make more than 50K?
-- What percentage of people without advanced education make more than 50K?
-- What is the minimum number of hours a person works per week?
-- What percentage of the people who work the minimum number of hours per week have a salary of more than 50K?
-- What country has the highest percentage of people that earn >50K and what is that percentage?
-- Identify the most popular occupation for those who earn >50K in India.
+- ¿Cuántas personas de cada raza están representadas en este set de datos? This should be a Pandas series with race names as the index labels. (columna `race`)
+- ¿Cuál es la edad promedio de los hombres?
+- ¿Cuál es el porcentaje de personas que tienen un grado de licenciatura (Bachelor's degree)?
+- ¿Qué porcentaje de personas con una educación avanzada (`Bachelors`, `Masters` o `Doctorate`) ganan más de 50k?
+- ¿Qué porcentaje de personas sin una educación avanzada generan más de 50k?
+- ¿Cuál es el mínimo número de horas que una persona trabaja por semana?
+- ¿Qué porcentaje de personas que trabajan el mínimo de horas por semana tiene un salario de más de 50k?
+- ¿Qué país tiene el porcentaje más alto de personas que ganan >50k y cuál es ese porcentaje?
+- Identifica la ocupación más popular de aquellos que ganan >50k en India.
 
-Utilice el código de inicio en el archivo `demographic_data_analyzer`. Actualice el código para que todas las variables definidas como "None" se establezcan al cálculo o código apropiado. Redondea todos los decimales a la décima más cercana.
-
-Las pruebas unitarias están escritas para ti en `test_module.py`.
+Use the starter code in the file `demographic_data_analyzer.py`. Update the code so all variables set to `None` are set to the appropriate calculation or code. Redondea todos los decimales a la décima más cercana.
 
 ## Desarrollo
 
-Para el desarrollo, puedes utilizar `main.py` para probar tus funciones. Haz clic en el botón "run" y se ejecutará `main.py`.
+Write your code in `demographic_data_analyzer.py`. For development, you can use `main.py` to test your code.
 
 ## Pruebas
 
-Importamos las pruebas de `test_module.py` a `main.py` para tu conveniencia. Las pruebas se ejecutarán automáticamente cada vez que presiones el botón "run".
+The unit tests for this project are in `test_module.py`. Importamos las pruebas de `test_module.py` a `main.py` para tu conveniencia.
 
 ## Envío
 

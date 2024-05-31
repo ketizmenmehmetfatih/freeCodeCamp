@@ -1,10 +1,9 @@
 import { isEmpty } from 'lodash-es';
 import { handleActions } from 'redux-actions';
 
-import { getLines } from '../../../../../utils/get-lines';
+import { getLines } from '../../../../../shared/utils/get-lines';
 import { getTargetEditor } from '../utils/get-target-editor';
 import { actionTypes, ns } from './action-types';
-import codeLockEpic from './code-lock-epic';
 import codeStorageEpic from './code-storage-epic';
 import completionEpic from './completion-epic';
 import createQuestionEpic from './create-question-epic';
@@ -21,16 +20,19 @@ const initialState = {
   challengeMeta: {
     superBlock: '',
     block: '',
+    blockHashSlug: '/',
     id: '',
+    nextBlock: '',
     nextChallengePath: '/',
     prevChallengePath: '/',
     challengeType: -1
   },
   challengeTests: [],
   consoleOut: [],
+  userCompletedExam: null,
   hasCompletedBlock: false,
-  isCodeLocked: false,
   isBuildEnabled: true,
+  isExecuting: false,
   isResetting: false,
   logsOut: [],
   modal: {
@@ -38,6 +40,10 @@ const initialState = {
     help: false,
     video: false,
     reset: false,
+    exitExam: false,
+    finishExam: false,
+    examResults: false,
+    survey: false,
     projectPreview: false,
     shortcuts: false
   },
@@ -46,15 +52,12 @@ const initialState = {
   showPreviewPane: true,
   projectFormValues: {},
   successMessage: 'Happy Coding!',
-  isAdvancing: false
+  isAdvancing: false,
+  chapterSlug: '',
+  isSubmitting: false
 };
 
-export const epics = [
-  codeLockEpic,
-  completionEpic,
-  createQuestionEpic,
-  codeStorageEpic
-];
+export const epics = [completionEpic, createQuestionEpic, codeStorageEpic];
 
 export const sagas = [
   ...createExecuteChallengeSaga(actionTypes),
@@ -63,6 +66,18 @@ export const sagas = [
 
 export const reducer = handleActions(
   {
+    [actionTypes.submitChallenge]: state => ({
+      ...state,
+      isSubmitting: true
+    }),
+    [actionTypes.submitChallengeComplete]: state => ({
+      ...state,
+      isSubmitting: false
+    }),
+    [actionTypes.submitChallengeError]: state => ({
+      ...state,
+      isSubmitting: false
+    }),
     [actionTypes.createFiles]: (state, { payload }) => ({
       ...state,
       challengeFiles: payload,
@@ -89,7 +104,8 @@ export const reducer = handleActions(
           challengeFile.fileKey === fileKey
             ? { ...challengeFile, ...updates }
             : { ...challengeFile }
-        )
+        ),
+        isBuildEnabled: true
       };
     },
     [actionTypes.storedCodeFound]: (state, { payload }) => ({
@@ -167,16 +183,6 @@ export const reducer = handleActions(
       ...state,
       projectFormValues: payload
     }),
-
-    [actionTypes.lockCode]: state => ({
-      ...state,
-      isCodeLocked: true
-    }),
-    [actionTypes.unlockCode]: state => ({
-      ...state,
-      isBuildEnabled: true,
-      isCodeLocked: false
-    }),
     [actionTypes.disableBuildOnError]: state => ({
       ...state,
       isBuildEnabled: false
@@ -205,6 +211,14 @@ export const reducer = handleActions(
       ...state,
       isAdvancing: payload
     }),
+    [actionTypes.setChapterSlug]: (state, { payload }) => ({
+      ...state,
+      chapterSlug: payload
+    }),
+    [actionTypes.setUserCompletedExam]: (state, { payload }) => ({
+      ...state,
+      userCompletedExam: payload
+    }),
     [actionTypes.closeModal]: (state, { payload }) => ({
       ...state,
       modal: {
@@ -222,7 +236,12 @@ export const reducer = handleActions(
     [actionTypes.executeChallenge]: state => ({
       ...state,
       currentTab: 3,
-      attempts: state.attempts + 1
+      attempts: state.attempts + 1,
+      isExecuting: true
+    }),
+    [actionTypes.executeChallengeComplete]: state => ({
+      ...state,
+      isExecuting: false
     }),
     [actionTypes.setEditorFocusability]: (state, { payload }) => ({
       ...state,
@@ -236,7 +255,11 @@ export const reducer = handleActions(
           [payload]: !state.visibleEditors[payload]
         }
       };
-    }
+    },
+    [actionTypes.createQuestion]: (state, { payload }) => ({
+      ...state,
+      description: payload
+    })
   },
   initialState
 );

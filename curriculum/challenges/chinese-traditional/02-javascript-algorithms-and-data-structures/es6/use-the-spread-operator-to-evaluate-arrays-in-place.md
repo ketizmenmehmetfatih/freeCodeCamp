@@ -28,7 +28,13 @@ const maximus = Math.max(...arr);
 
 `maximus` 的值應該是 `89`。
 
-`...arr` 返回一個解壓的數組。 也就是說，它*展開*數組。 然而，展開操作符只能夠在函數的參數中或者數組中使用。 下面的代碼將會報錯：
+`...arr` 返回一個解壓縮的數組。 換句話說，它展開了數組。 然而，展開操作符只能夠在函數的參數中或者數組中使用。 例如：
+
+```js
+const spreaded = [...arr];
+```
+
+下面的代碼將不能運行：
 
 ```js
 const spreaded = ...arr;
@@ -36,7 +42,7 @@ const spreaded = ...arr;
 
 # --instructions--
 
-使用展開操作符將 `arr1` 中的內容都複製到 `arr2` 中去。
+使用展開操作符將 `arr1` 中的全部內容複製到另一個數組 `arr2` 中。
 
 # --hints--
 
@@ -49,7 +55,7 @@ assert(arr2.every((v, i) => v === arr1[i]) && arr2.length);
 應使用展開操作符 `...` 來複制 `arr1`。
 
 ```js
-assert(code.match(/Array\(\s*\.\.\.arr1\s*\)|\[\s*\.\.\.arr1\s*\]/));
+assert(__helpers.removeJSComments(code).match(/Array\(\s*\.\.\.arr1\s*\)|\[\s*\.\.\.arr1\s*\]/));
 ```
 
 當 `arr1` 改變的時候，`arr2` 應保持不變。

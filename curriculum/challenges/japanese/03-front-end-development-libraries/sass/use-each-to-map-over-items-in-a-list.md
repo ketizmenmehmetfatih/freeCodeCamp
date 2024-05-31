@@ -44,7 +44,7 @@ $colors: (color1: blue, color2: red, color3: green);
 
 # --instructions--
 
-リスト `blue, black, red` をひととおり処理して各変数に `.color-bg` クラス (`color` の部分はアイテムごとに変化します) を割り当てる `@each` ディレクティブを記述してください。 各クラスの `background-color` にそれぞれの色を設定してください。
+リスト `blue, black, red` をひととおり処理して各変数に `.color-bg` クラス (`color` の部分はアイテムごとに対応する色名に変化します) を割り当てる `@each` ディレクティブを記述してください。 各クラスの `background-color` にもそれぞれの色を設定してください。
 
 # --hints--
 

@@ -20,9 +20,10 @@ module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
   config.env = config.env || {};
+  // TODO: once we've containerized the API, we can remove this.
   on('before:run', () => {
-    if (!existsSync('../../config/curriculum.json')) {
-      execSync('npm run build:curriculum');
+    if (!existsSync('../../shared/config/curriculum.json')) {
+      execSync('pnpm run build:curriculum');
     }
   });
 

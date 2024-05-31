@@ -39,14 +39,14 @@ Refaktoriere die Funktion `setGear` innerhalb des Objekts `bicycle`, um die oben
 Der traditionelle Funktionsausdruck sollte nicht verwendet werden.
 
 ```js
-(getUserInput) => assert(!code.match(/function/));
+assert(!__helpers.removeJSComments(code).match(/function/));
 ```
 
 `setGear` sollte eine deklarative Funktion sein.
 
 ```js
 assert(
-  typeof bicycle.setGear === 'function' && code.match(/setGear\s*\(.+\)\s*\{/)
+  typeof bicycle.setGear === 'function' && __helpers.removeJSComments(code).match(/setGear\s*\(.+\)\s*\{/)
 );
 ```
 
@@ -79,6 +79,7 @@ console.log(bicycle.gear);
 ```js
 const bicycle = {
   gear: 2,
+  // setGear: function(newGear) {
   setGear(newGear) {
     this.gear = newGear;
   }

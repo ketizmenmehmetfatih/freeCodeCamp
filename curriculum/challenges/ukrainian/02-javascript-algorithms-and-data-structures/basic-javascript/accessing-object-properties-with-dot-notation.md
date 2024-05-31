@@ -33,7 +33,7 @@ const prop2val = myObj.prop2;
 
 # --hints--
 
-`hatValue` повинен бути рядком
+`hatValue` має бути рядком
 
 ```js
 assert(typeof hatValue === 'string');
@@ -45,7 +45,7 @@ assert(typeof hatValue === 'string');
 assert(hatValue === 'ballcap');
 ```
 
-`shirtValue` повинен бути рядком
+`shirtValue` має бути рядком
 
 ```js
 assert(typeof shirtValue === 'string');
@@ -60,7 +60,7 @@ assert(shirtValue === 'jersey');
 Ви повинні використати точкову нотацію двічі
 
 ```js
-assert(code.match(/testObj\.\w+/g).length > 1);
+assert(__helpers.removeJSComments(code).match(/testObj\.\w+/g).length > 1);
 ```
 
 # --seed--
@@ -76,9 +76,9 @@ assert(code.match(/testObj\.\w+/g).length > 1);
 ```js
 // Setup
 const testObj = {
-  "hat": "ballcap",
-  "shirt": "jersey",
-  "shoes": "cleats"
+  hat: "ballcap",
+  shirt: "jersey",
+  shoes: "cleats"
 };
 
 // Only change code below this line
@@ -90,9 +90,9 @@ const shirtValue = testObj;    // Change this line
 
 ```js
 const testObj = {
-  "hat": "ballcap",
-  "shirt": "jersey",
-  "shoes": "cleats"
+  hat: "ballcap",
+  shirt: "jersey",
+  shoes: "cleats"
 };
 
 const hatValue = testObj.hat;

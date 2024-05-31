@@ -45,7 +45,7 @@ Es ist zu beachten, dass das `class`-Schlüsselwort eine neue Funktion deklarier
 
 **Beachte:** UpperCamelCase sollte per Konvention für ES6-Klassennamen verwendet werden, wie in `SpaceShuttle` oben verwendet.
 
-Die `constructor`-Methode ist eine spezielle Methode zur Erstellung und Initialisierung eines Objekts, das mit einer Klasse erstellt wurde. You will learn more about it in the Object Oriented Programming section of the JavaScript Algorithms And Data Structures Certification.
+Die `constructor`-Methode ist eine spezielle Methode zur Erstellung und Initialisierung eines Objekts, das mit einer Klasse erstellt wurde. Mehr darüber erfährst du im Abschnitt Objektorientierte Programmierung der JavaScript Algorithmen und Datenstrukturen Zertifizierung.
 
 # --instructions--
 
@@ -66,7 +66,7 @@ assert(
 Das `class`-Schlüsselwort sollte verwendet werden.
 
 ```js
-assert(code.match(/class/g));
+assert(__helpers.removeJSComments(code).match(/class/g));
 ```
 
 `Vegetable` sollte instanziiert werden können.

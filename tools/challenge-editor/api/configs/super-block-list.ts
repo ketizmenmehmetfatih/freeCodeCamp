@@ -48,7 +48,7 @@ export const superBlockList = [
     path: '13-relational-databases'
   },
   {
-    name: '(New) Responsive Web Design',
+    name: 'Responsive Web Design',
     path: '14-responsive-web-design-22'
   },
   {
@@ -58,5 +58,29 @@ export const superBlockList = [
   {
     name: 'The Odin Project',
     path: '16-the-odin-project'
+  },
+  {
+    name: 'College Algebra with Python',
+    path: '17-college-algebra-with-python'
+  },
+  {
+    name: 'Project Euler',
+    path: '18-project-euler'
+  },
+  {
+    name: '(New) Foundational C# with Microsoft',
+    path: '19-foundational-c-sharp-with-microsoft'
+  },
+  {
+    name: 'Upcoming Python',
+    path: '20-upcoming-python'
+  },
+  {
+    name: 'A2 English for Developers (Beta)',
+    path: '21-a2-english-for-developers'
+  },
+  {
+    name: 'Rosetta Code',
+    path: '22-rosetta-code'
   }
 ];

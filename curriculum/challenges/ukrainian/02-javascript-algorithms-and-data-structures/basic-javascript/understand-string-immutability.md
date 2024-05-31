@@ -18,7 +18,7 @@ let myStr = "Bob";
 myStr[0] = "J";
 ```
 
-Зауважте, що це *не* означає, що `myStr` не можна повторно присвоїти. Єдиний спосіб змінити `myStr` – присвоїти нове значення:
+Зауважте, що це *не* означає, що `myStr` не можна повторно присвоїти. Єдиний спосіб змінити `myStr` — присвоїти нове значення:
 
 ```js
 let myStr = "Bob";
@@ -40,7 +40,7 @@ assert(myStr === 'Hello World');
 Не змінюйте код над зазначеним коментарем.
 
 ```js
-assert(/myStr = "Jello World"/.test(code));
+assert(/myStr = "Jello World"/.test(__helpers.removeJSComments(code)));
 ```
 
 # --seed--

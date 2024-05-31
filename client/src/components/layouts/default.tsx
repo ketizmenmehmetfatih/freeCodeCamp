@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react';
 import Helmet from 'react-helmet';
-import { TFunction, withTranslation } from 'react-i18next';
+import { useTranslation, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { createSelector } from 'reselect';
@@ -22,10 +22,10 @@ import {
 } from '../../redux/actions';
 import {
   isSignedInSelector,
+  examInProgressSelector,
   userSelector,
   isOnlineSelector,
   isServerOnlineSelector,
-  showCodeAllySelector,
   userFetchStateSelector
 } from '../../redux/selectors';
 
@@ -39,43 +39,44 @@ import BreadCrumb from '../../templates/Challenges/components/bread-crumb';
 import Flash from '../Flash';
 import { flashMessageSelector, removeFlashMessage } from '../Flash/redux';
 import SignoutModal from '../signout-modal';
+import StagingWarningModal from '../staging-warning-modal';
 import Footer from '../Footer';
 import Header from '../Header';
 import OfflineWarning from '../OfflineWarning';
 import { Loader } from '../helpers';
+import envData from '../../../config/env.json';
 
 // preload common fonts
 import './fonts.css';
 import './global.css';
 import './variables.css';
 import './rtl-layout.css';
-import { Themes } from '../settings/theme';
 
 const mapStateToProps = createSelector(
   isSignedInSelector,
+  examInProgressSelector,
   flashMessageSelector,
   isOnlineSelector,
   isServerOnlineSelector,
   userFetchStateSelector,
-  showCodeAllySelector,
   userSelector,
   (
     isSignedIn,
+    examInProgress: boolean,
     flashMessage,
     isOnline: boolean,
     isServerOnline: boolean,
     fetchState: UserFetchState,
-    showCodeAlly: boolean,
     user: User
   ) => ({
     isSignedIn,
+    examInProgress,
     flashMessage,
     hasMessage: !!flashMessage.message,
     isOnline,
     isServerOnline,
     fetchState,
     theme: user.theme,
-    showCodeAlly,
     user
   })
 );
@@ -102,9 +103,8 @@ interface DefaultLayoutProps extends StateProps, DispatchProps {
   showFooter?: boolean;
   isChallenge?: boolean;
   block?: string;
-  showCodeAlly: boolean;
+  examInProgress: boolean;
   superBlock?: string;
-  t: TFunction;
 }
 
 const getSystemTheme = () =>
@@ -117,6 +117,7 @@ const getSystemTheme = () =>
 function DefaultLayout({
   children,
   hasMessage,
+  examInProgress,
   fetchState,
   flashMessage,
   isOnline,
@@ -127,13 +128,12 @@ function DefaultLayout({
   isChallenge = false,
   block,
   superBlock,
-  t,
-  theme = Themes.Default,
-  showCodeAlly,
+  theme,
   user,
   fetchUser,
   updateAllChallengesInfo
 }: DefaultLayoutProps): JSX.Element {
+  const { t } = useTranslation();
   const { challengeEdges, certificateNodes } = useGetAllBlockIds();
   useEffect(() => {
     // componentDidMount
@@ -165,11 +165,13 @@ function DefaultLayout({
   } else {
     return (
       <div className='page-wrapper'>
+        {envData.deploymentEnv === 'staging' &&
+          envData.environment === 'production' && <StagingWarningModal />}
         <Helmet
           bodyAttributes={{
             class: useSystemTheme
               ? getSystemTheme()
-              : `${theme === 'night' ? 'dark' : 'light'}-palette`
+              : `${String(theme) === 'night' ? 'dark' : 'light'}-palette`
           }}
           meta={[
             {
@@ -240,7 +242,7 @@ function DefaultLayout({
             />
           ) : null}
           <SignoutModal />
-          {isChallenge && !showCodeAlly && (
+          {isChallenge && !examInProgress && (
             <div className='breadcrumbs-demo'>
               <BreadCrumb
                 block={block as string}
@@ -248,9 +250,7 @@ function DefaultLayout({
               />
             </div>
           )}
-          <div id='content-start' tabIndex={-1}>
-            {fetchState.complete && children}
-          </div>
+          {fetchState.complete && children}
         </div>
         {showFooter && <Footer />}
       </div>

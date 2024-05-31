@@ -30,46 +30,52 @@ var sumTwoAnd = addTogether(2);
 assert.deepEqual(addTogether(2, 3), 5);
 ```
 
-`addTogether(23, 30)` は 53 を返す必要があります。
+`addTogether(23.4, 30)` should return 53.4.
 
 ```js
-assert.deepEqual(addTogether(23, 30), 53);
+assert.deepEqual(addTogether(23.4, 30), 53.4);
 ```
 
-`addTogether(5)(7)` は 12 を返す必要があります。
-
-```js
-assert.deepEqual(addTogether(5)(7), 12);
-```
-
-`addTogether("https://www.youtube.com/watch?v=dQw4w9WgXcQ")` は `undefined` を返す必要があります。
-
-```js
-assert.isUndefined(addTogether('https://www.youtube.com/watch?v=dQw4w9WgXcQ'));
-```
-
-`addTogether(2, "3")` は `undefined` を返す必要があります。
-
-```js
-assert.isUndefined(addTogether(2, '3'));
-```
-
-`addTogether(2)([3])` は `undefined` を返す必要があります。
-
-```js
-assert.isUndefined(addTogether(2)([3]));
-```
-
-`addTogether("2", 3)` は `undefined` を返す必要があります。
+`addTogether("2", 3)` should return `undefined`.
 
 ```js
 assert.isUndefined(addTogether('2', 3));
 ```
 
-`addTogether(5, undefined)` は `undefined` を返す必要があります。
+`addTogether(5, undefined)` should return `undefined`.
 
 ```js
 assert.isUndefined(addTogether(5, undefined));
+```
+
+`addTogether("https://www.youtube.com/watch?v=dQw4w9WgXcQ")` should return `undefined`.
+
+```js
+assert.isUndefined(addTogether('https://www.youtube.com/watch?v=dQw4w9WgXcQ'));
+```
+
+`addTogether(5)` should return a function.
+
+```js
+assert.deepEqual(typeof(addTogether(5)), 'function');
+```
+
+`addTogether(5)(7)` should return 12.
+
+```js
+assert.deepEqual(addTogether(5)(7), 12);
+```
+
+`addTogether(2)([3])` should return `undefined`.
+
+```js
+assert.isUndefined(addTogether(2)([3]));
+```
+
+`addTogether(2, "3")` should return `undefined`.
+
+```js
+assert.isUndefined(addTogether(2, '3'));
 ```
 
 # --seed--
@@ -88,16 +94,22 @@ addTogether(2,3);
 
 ```js
 function addTogether() {
-  var a = arguments[0];
-  if (toString.call(a) !== '[object Number]') return;
+  const first = arguments[0];
+  if (typeof(first) !== 'number') {
+    return undefined;
+  }
   if (arguments.length === 1) {
-    return function(b) {
-      if (toString.call(b) !== '[object Number]') return;
-      return a + b;
+    return function(second) {
+      if (typeof(second) !== 'number') {
+        return undefined;
+      }
+      return first + second;
     };
   }
-  var b = arguments[1];
-  if (toString.call(b) !== '[object Number]') return;
-  return a + arguments[1];
+  const second = arguments[1];
+  if (typeof(second) !== 'number') {
+    return undefined;
+  }
+  return first + second;
 }
 ```

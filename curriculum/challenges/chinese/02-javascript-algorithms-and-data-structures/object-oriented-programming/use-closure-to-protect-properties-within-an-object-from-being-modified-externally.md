@@ -16,7 +16,7 @@ dashedName: >-
 bird.name = "Duffy";
 ```
 
-因此，代码的任何地方都可以轻松地将 `bird` 的 name 属性更改为任意值。 想想密码和银行账户之类的东西，如果代码库的任何部分都可以轻易改变他们。 那么将会引起很多问题。
+因此，代码的任何地方都可以轻松地将 `bird` 的 name 属性更改为任意值。 想想密码和银行账户之类的东西，如果代码库的任何部分都可以轻易改变它们， 那将会引起很多问题。
 
 使属性私有化最简单的方法就是在构造函数中创建变量。 可以将该变量范围限定在构造函数中，而不是全局可用。 这样，属性只能由构造函数中的方法访问和更改。
 
@@ -43,7 +43,7 @@ ducky.getHatchedEggCount();
 `weight` 属性应该是一个私有变量，值应该是 `15`。
 
 ```js
-assert(code.match(/(var|let|const)\s+weight\s*\=\s*15\;?/g));
+assert(__helpers.removeJSComments(code).match(/(var|let|const)\s+weight\s*\=\s*15\;?/g));
 ```
 
 你的代码应该在 `Bird` 中创建一个名为 `getWeight` 方法，该方法返回私有变量 `weight`。
@@ -55,7 +55,7 @@ assert(new Bird().getWeight() === 15);
 你的 `getWeight` 函数应该返回私有变量 `weight`。
 
 ```js
-assert(code.match(/((return\s+)|(\(\s*\)\s*\=\>\s*))weight\;?/g));
+assert(__helpers.removeJSComments(code).match(/((return\s+)|(\(\s*\)\s*\=\>\s*))weight\;?/g));
 ```
 
 # --seed--

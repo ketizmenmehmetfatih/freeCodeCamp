@@ -1,13 +1,11 @@
-import { Col, Row } from '@freecodecamp/react-bootstrap';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
 import { certificatesByNameSelector } from '../../../redux/selectors';
 import type { CurrentCert } from '../../../redux/prop-types';
-import { ButtonSpacer, FullWidthRow, Link, Spacer } from '../../helpers';
-import './certifications.css';
+import { FullWidthRow, Link, Spacer } from '../../helpers';
 
 const mapStateToProps = (
   state: Record<string, unknown>,
@@ -48,20 +46,16 @@ function CertButton({ username, cert }: CertButtonProps): JSX.Element {
   const { t } = useTranslation();
   return (
     <>
-      <Row>
-        <Col className='certifications' sm={10} smPush={1}>
-          <Link
-            className='btn btn-lg btn-primary btn-block'
-            to={`/certification/${username}/${cert.certSlug}`}
-            data-cy='claimed-certification'
-          >
-            {t('buttons.view-cert-title', {
-              certTitle: t(`certification.title.${cert.certSlug}`)
-            })}
-          </Link>
-        </Col>
-      </Row>
-      <ButtonSpacer />
+      <Link
+        className='btn btn-lg btn-primary btn-block'
+        to={`/certification/${username}/${cert.certSlug}`}
+        data-cy='claimed-certification'
+      >
+        {t('buttons.view-cert-title', {
+          certTitle: t(`certification.title.${cert.certSlug}`)
+        })}
+      </Link>
+      <Spacer size='small' />
     </>
   );
 }
@@ -76,7 +70,7 @@ function Certificates({
   const { t } = useTranslation();
   return (
     <FullWidthRow className='certifications'>
-      <h2 className='text-center'>{t('profile.fcc-certs')}</h2>
+      <h2>{t('profile.fcc-certs')}</h2>
       <br />
       {hasModernCert && currentCerts ? (
         currentCerts
@@ -89,9 +83,9 @@ function Certificates({
       )}
       {hasLegacyCert ? (
         <div>
-          <br />
-          <h3 className='text-center'>{t('settings.headings.legacy-certs')}</h3>
-          <br />
+          <Spacer size='medium' />
+          <h3>{t('settings.headings.legacy-certs')}</h3>
+          <Spacer size='medium' />
           {legacyCerts &&
             legacyCerts
               .filter(({ show }) => show)
@@ -102,7 +96,7 @@ function Certificates({
                   username={username}
                 />
               ))}
-          <Spacer size={2} />
+          <Spacer size='medium' />
         </div>
       ) : null}
       <hr />

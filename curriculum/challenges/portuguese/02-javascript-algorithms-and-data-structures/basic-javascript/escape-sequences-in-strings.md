@@ -11,7 +11,7 @@ dashedName: escape-sequences-in-strings
 
 Aspas não são os únicos caracteres que podem ser <dfn>escapados</dfn> dentro de uma string. As sequências de escape permitem que você use caracteres que você não poderia usar em uma string em outras situações.
 
-<table class='table table-striped'><thead><tr><th>Código</th><th>Saída</th></tr></thead><tbody><tr><td><code>\'</code></td><td>aspas simples</td></tr><tr><td><code>\"</code></td><td>aspas duplas</td></tr><tr><td><code>\\</code></td><td>barra invertida</td></tr><tr><td><code>\n</code></td><td>nova linha</td></tr><tr><td><code>\t</code></td><td>tab</td></tr><tr><td><code>\r</code></td><td>retorno de carro</td></tr><tr><td><code>\b</code></td><td>limite de palavra</td></tr><tr><td><code>\f</code></td><td>quebra de página</td></tr></tbody></table>
+<table><thead><tr><th>Código</th><th>Saída</th></tr></thead><tbody><tr><td><code>\'</code></td><td>aspas simples</td></tr><tr><td><code>\"</code></td><td>aspas duplas</td></tr><tr><td><code>\\</code></td><td>barra invertida</td></tr><tr><td><code>\n</code></td><td>nova linha</td></tr><tr><td><code>\t</code></td><td>tab</td></tr><tr><td><code>\r</code></td><td>retorno de carro</td></tr><tr><td><code>\b</code></td><td>retroceder</td></tr><tr><td><code>\f</code></td><td>quebra de página</td></tr></tbody></table>
 
 *Note que a própria barra invertida deve ser escapada para ser exibida como uma barra invertida.*
 
@@ -19,7 +19,11 @@ Aspas não são os únicos caracteres que podem ser <dfn>escapados</dfn> dentro 
 
 Atribua as três linhas de texto a seguir em uma única variável `myStr` usando sequências de escapamento.
 
-<blockquote>FirstLine<br>    \SecondLine<br>ThirdLine</blockquote>
+<pre>
+FirstLine
+    \SecondLine
+ThirdLine
+</pre>
 
 Você precisará usar sequências de escapamento para inserir corretamente os caracteres especiais. Você também precisará seguir os espaçamentos assim como acima, sem espaços entre sequências de escapamento ou palavras.
 

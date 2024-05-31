@@ -45,58 +45,58 @@ Cambia la cadena de sentencias `if`/`else if` por una sentencia `switch`.
 No debes utilizar sentencias `else` en ningún lugar en el editor
 
 ```js
-assert(!/else/g.test(code));
+assert(!/else/g.test(__helpers.removeJSComments(code)));
 ```
 
 No debes utilizar sentencias `if` en ningún lugar en el editor
 
 ```js
-assert(!/if/g.test(code));
+assert(!/if/g.test(__helpers.removeJSComments(code)));
 ```
 
 Debes tener al menos cuatro sentencias `break`
 
 ```js
-assert(code.match(/break/g).length >= 4);
+assert(__helpers.removeJSComments(code).match(/break/g).length >= 4);
 ```
 
-`chainToSwitch("bob")` debe ser la cadena `Marley`
+`chainToSwitch("bob")` debe devolver una cadena `Marley`
 
 ```js
 assert(chainToSwitch('bob') === 'Marley');
 ```
 
-`chainToSwitch(42)` debe ser la cadena `The Answer`
+`chainToSwitch(42)` debe devolver la cadena `The Answer`
 
 ```js
 assert(chainToSwitch(42) === 'The Answer');
 ```
 
-`chainToSwitch(1)` debe ser la cadena `There is no #1`
+`chainToSwitch(1)` debe devolver la cadena `There is no #1`
 
 ```js
 assert(chainToSwitch(1) === 'There is no #1');
 ```
 
-`chainToSwitch(99)` debe ser la cadena `Missed me by this much!`
+`chainToSwitch(99)` debe devolver la cadena `Missed me by this much!`
 
 ```js
 assert(chainToSwitch(99) === 'Missed me by this much!');
 ```
 
-`chainToSwitch(7)` debe ser la cadena `Ate Nine`
+`chainToSwitch(7)` debe devolver la cadena `Ate Nine`
 
 ```js
 assert(chainToSwitch(7) === 'Ate Nine');
 ```
 
-`chainToSwitch("John")` debe ser `""` (cadena vacía)
+`chainToSwitch("John")` debe devolver `""` (cadena vacía)
 
 ```js
 assert(chainToSwitch('John') === '');
 ```
 
-`chainToSwitch(156)` debe ser `""` (cadena vacía)
+`chainToSwitch(156)` debe devolver `""` (cadena vacía)
 
 ```js
 assert(chainToSwitch(156) === '');

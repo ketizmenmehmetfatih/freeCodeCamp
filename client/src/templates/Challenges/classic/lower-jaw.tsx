@@ -1,23 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@freecodecamp/react-bootstrap';
 
+import { createSelector } from 'reselect';
+import { connect } from 'react-redux';
 import Fail from '../../../assets/icons/fail';
 import LightBulb from '../../../assets/icons/lightbulb';
 import GreenPass from '../../../assets/icons/green-pass';
+import { randomCompliment } from '../../../../src/utils/get-words';
 import Help from '../../../assets/icons/help';
 import Reset from '../../../assets/icons/reset';
+import { MAX_MOBILE_WIDTH } from '../../../../config/misc';
+import { apiLocation } from '../../../../config/env.json';
+import { ChallengeMeta } from '../../../redux/prop-types';
+import { Share } from '../../../components/share';
+import { ShareProps } from '../../../components/share/types';
+import Progress from '../../../components/Progress';
+import Quote from '../../../assets/icons/quote';
+import {
+  challengeMetaSelector,
+  completedPercentageSelector
+} from '../redux/selectors';
+import callGA from '../../../analytics/call-ga';
 
-import { MAX_MOBILE_WIDTH } from '../../../../../config/misc';
-import { apiLocation } from '../../../../../config/env.json';
+interface LowerJawPanelProps extends ShareProps {
+  resetButtonText: string;
+  helpButtonText: string;
+  resetButtonEvent: () => void;
+  helpButtonEvent: () => void;
+  hideHelpButton: boolean;
+  showShareButton: boolean;
+}
+
+interface LowerJawTipsProps {
+  testText: string;
+  learnEncouragementText: string;
+  htmlDescription: string;
+  showFeedback: boolean;
+}
+
+interface LowerJawStatusProps {
+  children: React.ReactNode;
+  text: string;
+  showFeedback: boolean;
+  testText: string;
+}
 
 interface LowerJawProps {
+  challengeMeta: ChallengeMeta;
+  completedPercent: number;
   hint?: string;
   challengeIsCompleted: boolean;
   openHelpModal: () => void;
   tryToExecuteChallenge: () => void;
   tryToSubmitChallenge: () => void;
-  isEditorInFocus?: boolean;
   testsLength?: number;
   attempts: number;
   openResetModal: () => void;
@@ -25,7 +60,129 @@ interface LowerJawProps {
   updateContainer: () => void;
 }
 
+const mapStateToProps = createSelector(
+  challengeMetaSelector,
+  completedPercentageSelector,
+  (challengeMeta: ChallengeMeta, completedPercent: number) => ({
+    challengeMeta,
+    completedPercent
+  })
+);
+
+const sentenceArray = [
+  'learn.sorry-try-again',
+  'learn.sorry-keep-trying',
+  'learn.sorry-getting-there',
+  'learn.sorry-hang-in-there',
+  'learn.sorry-dont-giveup'
+];
+
+const sentencePicker = (currentAttempts: number) => {
+  return sentenceArray[currentAttempts % sentenceArray.length];
+};
+
+const LowerButtonsPanel = ({
+  resetButtonText,
+  helpButtonText,
+  resetButtonEvent,
+  hideHelpButton,
+  helpButtonEvent,
+  showShareButton,
+  superBlock,
+  block
+}: LowerJawPanelProps) => {
+  return (
+    <>
+      <hr />
+      <div className='utility-bar'>
+        <button
+          data-playwright-test-label='lowerJaw-reset-button'
+          className='btn fade-in'
+          data-cy='reset-code-button'
+          onClick={resetButtonEvent}
+        >
+          <Reset />
+          {resetButtonText}
+        </button>
+        {showShareButton && <Share superBlock={superBlock} block={block} />}
+
+        {hideHelpButton && (
+          <button
+            className='btn fade-in'
+            id='get-help-button'
+            data-cy='get-help-button'
+            onClick={helpButtonEvent}
+          >
+            <Help />
+            {helpButtonText}
+          </button>
+        )}
+      </div>
+    </>
+  );
+};
+
+const LowerJawTips = ({
+  learnEncouragementText,
+  showFeedback,
+  htmlDescription
+}: LowerJawTipsProps) => {
+  return (
+    <>
+      <div
+        data-playwright-test-label='lowerJaw-failing-test-feedback'
+        data-cy='failing-test-feedback'
+        className='test-status fade-in'
+        aria-hidden={showFeedback}
+      >
+        <Fail aria-hidden='true' />
+        <p>{learnEncouragementText}</p>
+      </div>
+      <div
+        data-playwright-test-label='lowerJaw-failing-hint'
+        className='hint-status fade-in'
+        aria-hidden={showFeedback}
+      >
+        <LightBulb aria-hidden='true' />
+        <div
+          className='hint-description'
+          dangerouslySetInnerHTML={{ __html: htmlDescription }}
+        />
+      </div>
+    </>
+  );
+};
+
+const LowerJawQuote = ({ quote }: { quote: string }) => (
+  <div className='hint-status fade-in'>
+    <Quote aria-hidden='true' />
+    <div id='lowerjaw-quote'>
+      <p>{`"${quote}"`}</p>
+    </div>
+  </div>
+);
+
+const LowerJawStatus = ({
+  children,
+  text,
+  showFeedback
+}: LowerJawStatusProps) => {
+  return (
+    <div className='test-status fade-in' aria-hidden={showFeedback}>
+      <GreenPass aria-hidden='true' />
+      <p className='status'>
+        {text}
+        {children}
+      </p>
+    </div>
+  );
+};
+
+const isBlockCompleted = 100;
+
 const LowerJaw = ({
+  challengeMeta: { superBlock, block },
+  completedPercent,
   openHelpModal,
   challengeIsCompleted,
   hint,
@@ -33,20 +190,35 @@ const LowerJaw = ({
   tryToSubmitChallenge,
   attempts,
   testsLength,
-  isEditorInFocus,
   openResetModal,
   isSignedIn,
   updateContainer
 }: LowerJawProps): JSX.Element => {
   const hintRef = React.useRef('');
+  const [quote, setQuote] = useState(randomCompliment());
   const [runningTests, setRunningTests] = useState(false);
   const [testFeedbackHeight, setTestFeedbackHeight] = useState(0);
   const [currentAttempts, setCurrentAttempts] = useState(attempts);
   const [isFeedbackHidden, setIsFeedbackHidden] = useState(false);
-  const [testBtnAriaHidden, setTestBtnAriaHidden] = useState(false);
   const { t } = useTranslation();
-  const submitButtonRef = React.createRef<HTMLButtonElement>();
   const testFeedbackRef = React.createRef<HTMLDivElement>();
+
+  const checkYourCodeButtonRef = useRef<HTMLButtonElement>(null);
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+  const [focusManagementCompleted, setFocusManagementCompleted] =
+    useState(false);
+  const isCheckYourCodeButtonClicked = () => {
+    const activeElement = document.activeElement;
+    // Need to check Submit button as well because if it has focus then it is
+    // implied that Check Your Code button was clicked.
+    return (
+      activeElement === checkYourCodeButtonRef.current ||
+      activeElement === submitButtonRef.current
+    );
+  };
+
+  const showShareButton =
+    challengeIsCompleted && completedPercent === isBlockCompleted;
 
   useEffect(() => {
     // prevent unnecessary updates:
@@ -56,7 +228,6 @@ const LowerJaw = ({
     if (attempts === 0) {
       setCurrentAttempts(0);
       setRunningTests(false);
-      setTestBtnAriaHidden(false);
       setIsFeedbackHidden(false);
       hintRef.current = '';
     } else if (attempts > 0 && hint) {
@@ -80,19 +251,25 @@ const LowerJaw = ({
 
   useEffect(() => {
     if (challengeIsCompleted) {
-      if (!isEditorInFocus) submitButtonRef?.current?.focus();
+      // If Ctrl + Enter was used then we don't need to worry about setting
+      // focus, just leave it where it is. In NVDA, Ctrl + Enter will trigger
+      // a code check if focus is on a button in the tabs row. So it is not
+      // enough to only check whether the focus is in the editor.
+      if (!isCheckYourCodeButtonClicked()) {
+        setFocusManagementCompleted(true);
+        return;
+      }
+      // Delay focusing Submit button so that screen reader will announce
+      // it after the test results.
+      setQuote(randomCompliment());
       setTimeout(() => {
-        setTestBtnAriaHidden(true);
+        submitButtonRef.current?.focus();
+        setFocusManagementCompleted(true);
       }, 500);
     }
-
-    setTestBtnAriaHidden(challengeIsCompleted);
-    // Since submitButtonRef changes every render, we have to ignore it here or,
-    // once the challenges is completed, every render (including ones triggered
-    // by typing in the editor) will focus the button.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [challengeIsCompleted]);
 
+  // ToDo: turn it into a grid to remove the need for useEffect.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (testFeedbackRef.current) {
@@ -103,176 +280,121 @@ const LowerJaw = ({
     updateContainer();
   });
 
-  const renderTestFeedbackContainer = () => {
-    if (runningTests) {
-      return <span className='sr-only'>{t('aria.running-tests')}</span>;
-    } else if (challengeIsCompleted) {
-      const submitKeyboardInstructions = isEditorInFocus ? (
-        <span className='sr-only'>{t('aria.submit')}</span>
-      ) : (
-        ''
-      );
-      return (
-        <div className='test-status fade-in' aria-hidden={isFeedbackHidden}>
-          <div className='status-icon' aria-hidden='true'>
-            <span>
-              <GreenPass />
-            </span>
-          </div>
-          <div className='test-status-description'>
-            <h2>{t('learn.test')}</h2>
-            <p className='status'>
-              {t('learn.congratulations')}
-              {submitKeyboardInstructions}
-            </p>
-          </div>
-        </div>
-      );
-    } else if (hintRef.current) {
-      const hintDescription = `<h2 class="hint">${t('learn.hint')}</h2> ${
-        hintRef.current
-      }`;
-      return (
-        <>
-          <div
-            data-cy='failing-test-feedback'
-            className='test-status fade-in'
-            aria-hidden={isFeedbackHidden}
-          >
-            <div className='status-icon' aria-hidden='true'>
-              <span>
-                <Fail />
-              </span>
-            </div>
-            <div className='test-status-description'>
-              <h2>{t('learn.test')}</h2>
-              <p>{t(sentencePicker())}</p>
-            </div>
-          </div>
-          <div className='hint-status fade-in' aria-hidden={isFeedbackHidden}>
-            <div className='hint-icon' aria-hidden='true'>
-              <span>
-                <LightBulb />
-              </span>
-            </div>
-            <div
-              className='hint-description'
-              dangerouslySetInnerHTML={{ __html: hintDescription }}
-            />
-          </div>
-        </>
-      );
-    } else {
-      return null;
-    }
-  };
+  const isAttemptsLargerThanTest =
+    currentAttempts &&
+    testsLength &&
+    (currentAttempts >= testsLength || currentAttempts >= 3);
 
-  const sentencePicker = () => {
-    const sentenceArray = [
-      'learn.sorry-try-again',
-      'learn.sorry-keep-trying',
-      'learn.sorry-getting-there',
-      'learn.sorry-hang-in-there',
-      'learn.sorry-dont-giveup'
-    ];
-    return sentenceArray[currentAttempts % sentenceArray.length];
-  };
+  const isDesktop = window.innerWidth > MAX_MOBILE_WIDTH;
+  const isMacOS = navigator.userAgent.includes('Mac OS');
 
-  const renderContextualActionRow = () => {
-    const isAttemptsLargerThanTest =
-      currentAttempts &&
-      testsLength &&
-      (currentAttempts >= testsLength || currentAttempts >= 3);
+  const checkButtonText = isDesktop
+    ? isMacOS
+      ? t('buttons.check-code-3')
+      : t('buttons.check-code')
+    : t('buttons.check-code-2');
 
-    return (
-      <div>
-        <hr />
-        <div className='lower-jaw-icon-bar'>
-          <button
-            className='btn fade-in'
-            title={t('buttons.reset-step')}
-            aria-label={t('buttons.reset-step')}
-            data-cy='reset-code-button'
-            onClick={openResetModal}
-          >
-            <Reset />
-          </button>
-
-          {isAttemptsLargerThanTest && !challengeIsCompleted ? (
-            <button
-              className='btn fade-in'
-              id='get-help-button'
-              title={t('buttons.get-help')}
-              aria-label={t('buttons.get-help')}
-              data-cy='get-help-button'
-              onClick={openHelpModal}
-            >
-              <Help />
-            </button>
-          ) : null}
-        </div>
-      </div>
-    );
-  };
-
-  const showDesktopButton = window.innerWidth > MAX_MOBILE_WIDTH;
-
-  const renderButtons = () => {
-    return (
-      <>
-        <div id='action-buttons-container'>
-          {isSignedIn ? null : challengeIsCompleted ? (
-            <Button
-              block={true}
-              href={`${apiLocation}/signin`}
-              className='btn-cta'
-            >
-              {t('learn.sign-in-save')}
-            </Button>
-          ) : null}
-          <button
-            id='test-button'
-            data-cy='run-tests-button'
-            className={`btn-block btn ${challengeIsCompleted ? 'sr-only' : ''}`}
-            aria-hidden={testBtnAriaHidden}
-            onClick={tryToExecuteChallenge}
-          >
-            {showDesktopButton
-              ? t('buttons.check-code')
-              : t('buttons.check-code-2')}
-          </button>
-          <button
-            id='submit-button'
-            data-cy='submit-button'
-            aria-hidden={!challengeIsCompleted}
-            className='btn-block btn'
-            onClick={tryToSubmitChallenge}
-            ref={submitButtonRef}
-          >
-            {t('buttons.submit-and-go')}
-          </button>
-        </div>
-      </>
-    );
-  };
-
+  const showSignInButton = !isSignedIn && challengeIsCompleted;
   return (
     <div className='action-row-container'>
-      {renderButtons()}
+      {showSignInButton && (
+        <a
+          data-cy='sign-in-button'
+          href={`${apiLocation}/signin`}
+          className='btn-cta btn btn-block'
+          onClick={() => {
+            callGA({
+              event: 'sign_in'
+            });
+          }}
+        >
+          {t('learn.sign-in-save')}
+        </a>
+      )}
+      <button
+        data-playwright-test-label='lowerJaw-submit-button'
+        className='btn-block btn'
+        data-cy='submit-lowerJaw-button'
+        onClick={tryToSubmitChallenge}
+        {...(!challengeIsCompleted && { 'aria-hidden': true })}
+        ref={submitButtonRef}
+      >
+        {t('buttons.submit-and-go')}
+      </button>
+      <button
+        data-playwright-test-label='lowerJaw-check-button'
+        className='btn-block btn'
+        data-cy='check-lowerJaw-button'
+        onClick={tryToExecuteChallenge}
+        {...(challengeIsCompleted &&
+          !focusManagementCompleted && { tabIndex: -1, className: 'sr-only' })}
+        {...(challengeIsCompleted &&
+          focusManagementCompleted && { 'aria-hidden': true })}
+        ref={checkYourCodeButtonRef}
+      >
+        {checkButtonText}
+      </button>
+      {/* Using aria-live=polite instead of assertive works better with ORCA */}
       <div
         style={runningTests ? { height: `${testFeedbackHeight}px` } : {}}
         className={`test-feedback`}
-        id='test-feedback'
-        aria-live='assertive'
+        aria-live='polite'
         ref={testFeedbackRef}
       >
-        {renderTestFeedbackContainer()}
+        {runningTests && (
+          <span className='sr-only'>{t('aria.running-tests')}</span>
+        )}
+        {challengeIsCompleted && (
+          <>
+            <LowerJawStatus
+              testText={t('learn.test')}
+              showFeedback={isFeedbackHidden}
+              text={t('learn.congratulations')}
+            >
+              {!isCheckYourCodeButtonClicked() && (
+                <span className='sr-only'>, {t('aria.submit')}</span>
+              )}
+            </LowerJawStatus>
+            <LowerJawQuote quote={quote} />
+            <span className='sr-only'>
+              {t('learn.percent-complete', { percent: completedPercent })}
+            </span>
+          </>
+        )}
+        {hintRef.current && !challengeIsCompleted && (
+          <LowerJawTips
+            data-testid='lowerJaw-tips'
+            showFeedback={isFeedbackHidden}
+            testText={t('learn.test')}
+            htmlDescription={`${hintRef.current}`}
+            learnEncouragementText={t(sentencePicker(currentAttempts))}
+          />
+        )}
       </div>
-      {renderContextualActionRow()}
+      {challengeIsCompleted && (
+        <>
+          <hr></hr>
+          <div className='progress-bar-container'>
+            <Progress />
+          </div>
+        </>
+      )}
+      <LowerButtonsPanel
+        resetButtonText={t('buttons.reset')}
+        helpButtonText={t('buttons.help')}
+        resetButtonEvent={openResetModal}
+        hideHelpButton={Boolean(
+          isAttemptsLargerThanTest && !challengeIsCompleted
+        )}
+        helpButtonEvent={openHelpModal}
+        showShareButton={showShareButton}
+        superBlock={superBlock}
+        block={block}
+      />
     </div>
   );
 };
 
 LowerJaw.displayName = 'LowerJaw';
 
-export default LowerJaw;
+export default connect(mapStateToProps)(LowerJaw);

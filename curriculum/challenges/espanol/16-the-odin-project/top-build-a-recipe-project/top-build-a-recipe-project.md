@@ -15,26 +15,26 @@ El sitio web constará de una página de índice principal que tendrá enlaces a
 1. Tu página de receta debe incluir un elemento `html` con un elemento `head` y `body` como hijos.
 1. Debes tener un elemento `title` dentro del elemento `head` con el texto <codeThe Odin Recipes</code>.
 1. Deberías ver un elemento `h1` que tiene el texto `Creamy Chocolate Fudge`.
-1. You should see an image with the url `*placeholder-fcc-cdn*` with a fitting `alt` text.
-1. There should be an `h2` element with the text `Description` under the image.
-1. You should see a couple of paragraphs under `Description` that describe the recipe.
-1. There should be an `h2` element with the text `Ingredients`
-1. Under the `Ingredients` heading there should be an unordered list with the ingredients needed for the recipe.
-1. Under the list of ingredients add another heading called `Steps`.
-1. You should see an ordered list with a couple of steps needed to complete the recipe.
-1. Under the steps there should be an `h2` element with the text `More Recipes`
-1. You should see a couple of links to other recipes inside an unordered list which has a couple of list items with anchor elements within.
-1. These anchor elements should have `href` attribute with the value set to `#`
+1. You should see a related image with an `alt` attribute.
+1. Debes tener un elemento `h2` con el texto `Description` debajo de la imagen.
+1. Debes ver algunos párrafos debajo de,`Description` que describan la receta.
+1. There should be an `h2` element with the text `Ingredients`.
+1. Debajo del título `Ingredients` debe haber una lista desordenada con los ingredientes necesarios para la receta.
+1. Debajo de la lista de ingredientes añade otro título llamado `Steps`.
+1. Deberías ver una lista ordenada con algunos de los pasos necesarios para completar la receta.
+1. Under the steps there should be an `h2` element with the text `More Recipes`.
+1. Deberías ver algunos enlaces a otras recetas, dentro de una lista desordenada que con elementos anchor dentro de los elementos de lista.
+1. These anchor elements should have an `href` attribute with the value set to `#`.
 
 # --hints--
 
-You should have a `DOCTYPE` tag.
+Deberías tener una etiqueta `DOCTYPE`.
 
 ```js
 assert(code.match(/<!DOCTYPE\s+?html\s*?>/gi));
 ```
 
-You should have a `html` element with `head` and `body` element.
+You should have an `html` element with `head` and `body` element.
 
 ```js
 const html = document.querySelectorAll('html')[0];
@@ -44,24 +44,24 @@ const body = document.querySelectorAll('html > body')[0];
 assert(html && head && body);
 ```
 
-You should have a `title` element within the `head` element that contains the text `The Odin Recipes`.
+Deberías tener un elemento `title` dentro del elemento `head` con el texto `The Odin Recipes`.
 
 ```js
 assert(document.querySelectorAll('HEAD > TITLE')[0].innerText == 'The Odin Recipes');
 ```
 
-You should have a `h1` element within your `body` element that contains the text `Creamy Chocolate Fudge`.
+Deberías tener un elemento `h1` dentro del elemento `body` con el texto `Creamy Chocolate Fudge`.
 
 ```js
 assert(document.querySelectorAll('BODY > H1')[0].innerText == 'Creamy Chocolate Fudge');
 ```
 
-You should have an image with the url `*placeholder-fcc-cdn*` with an `alt` attribute that has a fitting text.
+You should have an image with an `alt` attribute.
 
 ```js
 const img = document.querySelectorAll('IMG')[0];
 
-assert(img && img.alt !='' && img.src === 'https://i.imgur.com/p0J5baJ.jpg')
+assert(img && img.alt !='' && img.src != '')
 ```
 
 You should have an `h2` element with the text `Description`.
@@ -105,7 +105,7 @@ const h2 = document.querySelectorAll('H2')[2];
 assert(h2.innerText == 'Steps');
 ```
 
-You should have a `<ol>` with the the steps as the list items `<li>`.
+You should have an `<ol>` with the steps as the list items `<li>`.
 
 ```js
 const orderedList = document.querySelectorAll('OL')[0];
@@ -137,7 +137,7 @@ const containsAnchors =  [...listItems].every(function(listItem) {
 assert(unorderedList && allAreListItems && containsAnchors && listItems.length > 1);
 ```
 
-Your anchor tags linking to the recipes should have a `href` attribute with the value set to `#`
+Your anchor tags linking to the recipes should have an `href` attribute with the value set to `#`.
 
 ```js
 const anchorTags = document.querySelectorAll("a");
@@ -161,7 +161,7 @@ assert(allAnchorsHaveHrefHash && anchorTags.length > 0);
 
 ```
 
-## --solutions--
+# --solutions--
 
 ```html
 <!DOCTYPE html>
@@ -171,7 +171,7 @@ assert(allAnchorsHaveHrefHash && anchorTags.length > 0);
   </head>
   <body>
     <h1>Creamy Chocolate Fudge</h1>
-    <img src="https://i.imgur.com/p0J5baJ.jpg" alt="A delicious chocolate fudge dessert">
+    <img src="https://cdn.freecodecamp.org/curriculum/odin-project/build-a-recipe-page/build-a-recipe-page-01.jpg" alt="A delicious chocolate fudge dessert">
     <h2>Description</h2>
     <p>This recipe is for a rich and creamy chocolate fudge that is sure to satisfy your sweet tooth. It's perfect for a special occasion or as a tasty treat for any time of the year.</p>
     <p>This recipe is easy to follow and only requires a few simple ingredients. With just a few steps, you'll be able to create a delicious dessert that everyone will love.</p>
@@ -201,4 +201,8 @@ assert(allAnchorsHaveHrefHash && anchorTags.length > 0);
     </ul>
   </body>
 </html>
+```
+
+```css
+
 ```

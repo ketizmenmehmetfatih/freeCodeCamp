@@ -8,18 +8,20 @@ export const tryToShowDonationModal = createAction(
   actionTypes.tryToShowDonationModal
 );
 
-export const executeGA = createAction(actionTypes.executeGA);
-
 export const allowBlockDonationRequests = createAction(
   actionTypes.allowBlockDonationRequests
 );
+export const setRenderStartTime = createAction(actionTypes.setRenderStartTime);
 export const closeDonationModal = createAction(actionTypes.closeDonationModal);
 export const openDonationModal = createAction(actionTypes.openDonationModal);
 export const preventBlockDonationRequests = createAction(
   actionTypes.preventBlockDonationRequests
 );
-export const preventProgressDonationRequests = createAction(
-  actionTypes.preventProgressDonationRequests
+export const setCompletionCountWhenShownProgressModal = createAction(
+  actionTypes.setCompletionCountWhenShownProgressModal
+);
+export const setShowMultipleProgressModals = createAction(
+  actionTypes.setShowMultipleProgressModals
 );
 export const updateDonationFormState = createAction(
   actionTypes.updateDonationFormState
@@ -64,6 +66,13 @@ export const postChargeProcessing = createAction(
 export const postChargeComplete = createAction(actionTypes.postChargeComplete);
 export const postChargeError = createAction(actionTypes.postChargeError);
 
+export const updateCard = createAction(actionTypes.updateCard);
+export const updateCardError = createAction(actionTypes.updateCardError);
+export const updateCardComplete = createAction(actionTypes.updateCardComplete);
+export const updateCardRedirecting = createAction(
+  actionTypes.updateCardRedirecting
+);
+
 export const fetchProfileForUser = createAction(
   actionTypes.fetchProfileForUser
 );
@@ -90,9 +99,20 @@ export const deleteUserTokenComplete = createAction(
   actionTypes.deleteUserTokenComplete
 );
 
-export const hideCodeAlly = createAction(actionTypes.hideCodeAlly);
-export const showCodeAlly = createAction(actionTypes.showCodeAlly);
-export const tryToShowCodeAlly = createAction(actionTypes.tryToShowCodeAlly);
+export const startExam = createAction(actionTypes.startExam);
+export const stopExam = createAction(actionTypes.stopExam);
+export const clearExamResults = createAction(actionTypes.clearExamResults);
+
+export const linkMsUsername = createAction(actionTypes.linkMsUsername);
+export const unlinkMsUsername = createAction(actionTypes.unlinkMsUsername);
+export const setMsUsername = createAction(actionTypes.setMsUsername);
+
+export const submitSurvey = createAction(actionTypes.submitSurvey);
+export const submitSurveyComplete = createAction(
+  actionTypes.submitSurveyComplete
+);
+
+export const setIsProcessing = createAction(actionTypes.setIsProcessing);
 
 export const closeSignoutModal = createAction(actionTypes.closeSignoutModal);
 export const openSignoutModal = createAction(actionTypes.openSignoutModal);

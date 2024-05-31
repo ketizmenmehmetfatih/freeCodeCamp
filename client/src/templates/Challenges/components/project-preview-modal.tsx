@@ -1,6 +1,6 @@
-import { Button, Modal } from '@freecodecamp/react-bootstrap';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Button, Modal } from '@freecodecamp/ui';
 
 import type { CompletedChallenge } from '../../../redux/prop-types';
 import {
@@ -55,25 +55,17 @@ function ProjectPreviewModal({
 
   return (
     <Modal
-      bsSize='lg'
-      data-cy='project-preview-modal'
-      dialogClassName='project-preview-modal'
-      onHide={() => {
+      size='large'
+      onClose={() => {
         closeModal('projectPreview');
         setEditorFocusability(true);
       }}
-      show={isOpen}
+      open={isOpen}
     >
-      <Modal.Header
-        className='project-preview-modal-header fcc-modal'
-        closeButton={true}
-      >
-        <Modal.Title className='text-center'>{previewTitle}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className='project-preview-modal-body text-center'>
-        {/* remove type assertion once frame.js has been migrated to TS */}
+      <Modal.Header closeButtonClassNames='close'>{previewTitle}</Modal.Header>
+      <Modal.Body>
         <Preview
-          previewId={projectPreviewId as string}
+          previewId={projectPreviewId}
           previewMounted={() =>
             projectPreviewMounted({ challengeData, showProjectPreview })
           }
@@ -82,8 +74,8 @@ function ProjectPreviewModal({
       <Modal.Footer>
         <Button
           block={true}
-          bsSize='lg'
-          bsStyle='primary'
+          size='large'
+          variant='primary'
           onClick={() => {
             closeModal('projectPreview');
             setEditorFocusability(true);

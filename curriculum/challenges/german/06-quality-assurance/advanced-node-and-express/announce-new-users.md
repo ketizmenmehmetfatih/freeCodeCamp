@@ -10,7 +10,7 @@ dashedName: announce-new-users
 
 Viele Chaträume sind in der Lage, zu erkennen, wann ein Benutzer eine Verbindung herstellt oder unterbricht – dies wird dann allen verbundenen Nutzern im Chat angezeigt. Da du bereits ein Ereignis beim Verbinden und Trennen emittierst, musst du nur dieses Ereignis ändern, um eine solche Funktion zu implementieren. The most logical way of doing so is sending 3 pieces of data with the event: the username of the user who connected/disconnected, the current user count, and if that username connected or disconnected.
 
-Change the event name to `'user'`, and pass an object along containing the fields `username`, `currentUsers`, and `connected` (to be `true` in case of connection, or `false` for disconnection of the user sent). Be sure to change both `'user count'` events and set the disconnect one to send `false` for the field `connected` instead of `true` like the event emitted on connect.
+Setze den Ereignisnamen auf `'user'` und übergebe diesem ein Objekt mit den Feldern `username`, `currentUsers` und `connected` (`true` bei Verbindungsaufbau bzw. `false` bei Trennung des Nutzers). Be sure to change both `'user count'` events and set the disconnect one to send `false` for the field `connected` instead of `true` like the event emitted on connect.
 
 ```js
 io.emit('user', {
@@ -38,13 +38,14 @@ Reiche deine Seite ein, wenn du davon ausgehst, alles richtig gemacht zu haben. 
 
 # --hints--
 
-Das Ereignis `'user'` sollte gemeinsam mit `name`, `currentUsers` und `connected` emittiert werden.
+Event `'user'` should be emitted with `username`, `currentUsers`, and `connected`.
 
 ```js
 async (getUserInput) => {
   const url = new URL("/_api/server.js", getUserInput("url"));
   const res = await fetch(url);
   const data = await res.text();
+  // Regex is lenient to match both `username` and `name` as the key on purpose.
   assert.match(
     data,
     /io.emit.*('|")user\1.*name.*currentUsers.*connected/s,

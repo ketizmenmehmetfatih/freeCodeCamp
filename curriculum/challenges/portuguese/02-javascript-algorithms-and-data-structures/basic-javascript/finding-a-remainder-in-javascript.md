@@ -32,14 +32,14 @@ Na matemática, um número pode ser verificado como par ou ímpar por meio do re
 
 # --instructions--
 
-Define o `resto` igual ao restante de `11` dividido por `3` usando o operador de <dfn>restante</dfn> (`%`).
+Define `remainder` como o resto da divisão de `11` por `3` usando o operador de <dfn>resto</dfn> (`%`).
 
 # --hints--
 
 A variável `remainder` deve ser inicializada
 
 ```js
-assert(/(const|let|var)\s+?remainder/.test(code));
+assert(/(const|let|var)\s+?remainder/.test(__helpers.removeJSComments(code)));
 ```
 
 O valor de `remainder` deve ser `2`
@@ -51,7 +51,7 @@ assert(remainder === 2);
 Você deve usar o operador `%`
 
 ```js
-assert(/\s+?remainder\s*?=\s*?.*%.*;?/.test(code));
+assert(/\s+?remainder\s*?=\s*?.*%.*;?/.test(__helpers.removeJSComments(code)));
 ```
 
 # --seed--

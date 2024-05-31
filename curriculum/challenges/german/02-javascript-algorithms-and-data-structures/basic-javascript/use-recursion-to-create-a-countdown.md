@@ -59,7 +59,7 @@ Dein Code sollte keine Schleifen enthalten (`for`, `while` oder Funktionen höhe
 
 ```js
 assert(
-  !code.match(/for|while|forEach|map|filter|reduce/g)
+  !__helpers.removeJSComments(code).match(/for|while|forEach|map|filter|reduce/g)
 );
 ```
 
@@ -71,7 +71,7 @@ assert(
 );
 ```
 
-Global variables should not be used to cache the array.
+Globale Variablen sollten nicht zum Zwischenspeichern des Arrays verwendet werden.
 
 ```js
 countdown(1)

@@ -10,7 +10,7 @@ dashedName: use-the-filter-method-to-extract-data-from-an-array
 
 Eine weitere nützliche Array-Funktion ist `Array.prototype.filter()`, oder einfach `filter()`.
 
-`filter` calls a function on each element of an array and returns a new array containing only the elements for which that function returns a truthy value - that is, a value which returns `true` if passed to the `Boolean()` constructor. Mit anderen Worten: Sie filtert das Array auf der Grundlage der übergebenen Funktion. Genau wie `map` macht sie das, ohne dass das ursprüngliche Array verändert werden muss.
+`filter` ruft für jedes Element eines Arrays eine Funktion auf und gibt ein neues Array zurück, das nur die Elemente enthält, für die diese Funktion einen wahren Wert zurückgibt – das heißt, einen Wert, der `true` zurückgibt, wenn er an den `Boolean()`-Konstruktor übergeben wird. Mit anderen Worten: Sie filtert das Array auf der Grundlage der übergebenen Funktion. Genau wie `map` macht sie das, ohne dass das ursprüngliche Array verändert werden muss.
 
 Die Callback-Funktion nimmt drei Argumente entgegen. Das erste Argument ist das aktuelle Element, das bearbeitet wird. Das zweite ist der Index dieses Elements und das dritte ist das Array, auf dem die Methode `filter` aufgerufen wurde.
 
@@ -46,13 +46,13 @@ assert(
 Dein Code sollte die Methode `filter` verwenden.
 
 ```js
-assert(code.match(/\s*\.\s*filter/g));
+assert(__helpers.removeJSComments(code).match(/\s*\.\s*filter/g));
 ```
 
 Dein Code sollte keine `for`-Schleife verwenden.
 
 ```js
-assert(!code.match(/for\s*?\([\s\S]*?\)/g));
+assert(!__helpers.removeJSComments(code).match(/for\s*?\([\s\S]*?\)/g));
 ```
 
 `filteredList` sollt gleich `[{"title": "Inception", "rating": "8.8"}, {"title": "Interstellar", "rating": "8.6"}, {"title": "The Dark Knight", "rating": "9.0"}, {"title": "Batman Begins", "rating": "8.3"}]` sein.

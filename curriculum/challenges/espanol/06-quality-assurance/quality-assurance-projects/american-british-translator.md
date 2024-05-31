@@ -11,16 +11,8 @@ dashedName: american-british-translator
 Crea una aplicación full stack de JavaScript que sea funcionalmente similar a esta: <a href="https://american-british-translator.freecodecamp.rocks/" target="_blank" rel="noopener noreferrer nofollow">https://american-british-translator.freecodecamp.rocks/</a>. Trabajar en este proyecto implicará escribir tu código utilizando uno de los siguientes métodos:
 
 -   Clone este repositorio de <a href="https://github.com/freeCodeCamp/boilerplate-project-american-british-english-translator/" target="_blank" rel="noopener noreferrer nofollow"> GitHub</a> y complete estos desafíos localmente.
--   Usa <a href="https://replit.com/github/freeCodeCamp/boilerplate-project-american-british-english-translator" target="_blank" rel="noopener noreferrer nofollow">nuestro proyecto inicial de Replit</a> para completar tu proyecto.
+-   Use <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-project-american-british-english-translator/" target="_blank" rel="noopener noreferrer nofollow">our Gitpod starter project</a> to complete your project.
 -   Usa un constructor de sitios de tu elección para completar el proyecto. Asegúrate de incorporar todos los archivos de nuestro repositorio de GitHub.
-
-Si usas Replit, sigue estos pasos para configurar el proyecto:
-
--   Empieza importando el proyecto en Replit.
--   Siguiente, verás una ventana `.replit`.
--   Selecciona `Use run command` y click en el botón `Done`.
-
-Cuando este hecho, asegurate que una demo de trabajo de tu proyecto este hospedad en algún sitio público. Then submit the URL to it in the Solution Link field. Optionally, also submit a link to your project's source code in the GitHub Link field.
 
 # --instructions--
 
@@ -28,8 +20,8 @@ Cuando este hecho, asegurate que una demo de trabajo de tu proyecto este hospeda
 -   Completa la ruta `/api/translate` en `/routes/api.js`
 -   Crea todo lo de las pruebas unitarias/funcionales tests en `tests/1_unit-tests.js` y `tests/2_functional-tests.js`
 -   Consulta los archivos JavaScript en `/components` para las diferentes pronunciaciones y terminos que tu aplicación debería traducir
--   Para ejecutar las pruebas en Replit, establece `NODE_ENV` a `test` sin las comillas en el archivo `.env`
--   Para ejecutar las pruebas en la consola, usa el comando: `npm run test`. Para abrir la consola Replit, presiona Ctrl+Shift+P (Cmd en Mac) y tipea "open shell"
+-   To run the tests automatically, set `NODE_ENV` to `test` without quotes in the `.env` file
+-   Para ejecutar las pruebas en la consola, usa el comando: `npm run test`.
 
 Escribe las siguientes pruebas en `tests/1_unit-tests.js`:
 
@@ -69,7 +61,7 @@ Escribe las siguientes pruebas en `tests/2_functional-tests.js`:
 
 # --hints--
 
-You should provide your own project, not the example URL.
+Debes proporcionar tu propio proyecto, no la URL ejemplo.
 
 ```js
 (getUserInput) => {
@@ -282,7 +274,7 @@ async (getUserInput) => {
 };
 ```
 
-All 24 unit tests are complete and passing.
+Todas las 24 pruebas unitarias están completas y pasan.
 
 ```js
 async (getUserInput) => {
@@ -307,7 +299,7 @@ async (getUserInput) => {
 };
 ```
 
-All 6 functional tests are complete and passing.
+Todas las 6 pruebas funcionales están completas y pasan.
 
 ```js
 async (getUserInput) => {

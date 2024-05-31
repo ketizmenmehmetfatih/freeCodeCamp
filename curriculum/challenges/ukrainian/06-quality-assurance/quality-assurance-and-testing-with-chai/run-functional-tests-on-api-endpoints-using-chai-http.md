@@ -8,7 +8,7 @@ dashedName: run-functional-tests-on-api-endpoints-using-chai-http
 
 # --description--
 
-Нагадуємо, що цей проєкт створюється на основі наступного стартового проєкту на <a href="https://replit.com/github/freeCodeCamp/boilerplate-mochachai" target="_blank" rel="noopener noreferrer nofollow">Replit</a> або клонований з <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>.
+Нагадуємо, що цей проєкт створюється на основі наступного стартового проєкту на <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">Gitpod</a> або клонований з <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>.
 
 Mocha дозволяє перевіряти асинхронні операції (наприклад, виклики в кінцевих точках API) за допомогою плагіну `chai-http`.
 
@@ -19,6 +19,7 @@ suite('GET /hello?name=[name] => "hello [name]"', function () {
   test('?name=John', function (done) {
     chai
       .request(server)
+      .keepOpen()
       .get('/hello?name=John')
       .end(function (err, res) {
         assert.equal(res.status, 200, 'Response status should be 200');
@@ -29,11 +30,15 @@ suite('GET /hello?name=[name] => "hello [name]"', function () {
 });
 ```
 
-Тест надсилає запит `GET` до сервера з назвою як рядок запиту URL (`?name=John`). У функії зворотного виклику методу `end` отримується об'єкт-відповідь (`res`), який містить властивість `status`.
+Тест надсилає запит `GET` до сервера з назвою як рядок запиту URL (`?name=John`). У функії зворотного виклику методу `end` отримується об’єкт-відповідь (`res`), який містить властивість `status`.
 
-Перший `assert.equal` перевіряє, чи статус дорівнює `200`. Другий `assert.equal` перевіряє, чи рядок відповіді (`res.text`) рівний `"hello John"`.
+Перший `assert.equal` перевіряє, чи статус дорівнює `200`. Другий `assert.equal` перевіряє, чи рядок відповіді (`res.text`) дорівнює `"hello John"`.
 
 Зверніть увагу на параметр `done` у функції тесту зворотного виклику. Його необхідно викликати без аргументу в кінці тесту, щоб повідомити, що асинхронна операція завершена.
+
+Наприкінці, зверніть увагу на метод `keepOpen` одразу після методу `request`. Зазвичай ви запускаєте свої тести з командного рядка або як частину автоматизованого процесу інтеграції, і ви можете дозволити `chai-http` запускати та зупиняти ваш сервер автоматично.
+
+Однак тести, які виконуються, коли ви надсилаєте посилання на свій проєкт, вимагають, щоб сервер був запущений, тому вам потрібно використати метод `keepOpen`, щоб `chai-http` не зупинив сервер.
 
 # --instructions--
 

@@ -8,7 +8,7 @@ dashedName: handle-a-rejected-promise-with-catch
 
 # --description--
 
-`catch` – це метод, який використовують тоді, коли проміс було відхилено. Він виконується одразу після виклику методу `reject`. Ось синтаксис:
+`catch` — це метод, який використовують тоді, коли проміс було відхилено. Він виконується одразу після виклику методу `reject`. Ось синтаксис:
 
 ```js
 myPromise.catch(error => {
@@ -20,7 +20,7 @@ myPromise.catch(error => {
 
 # --instructions--
 
-Додайте метод `catch` до свого промісу. Використайте `error` як параметр функції зворотного виклику та введіть `error` на консолі.
+Додайте метод `catch` до свого промісу. Використайте `error` як параметр функції зворотного виклику та виведіть `error` на консолі.
 
 # --hints--
 
@@ -28,7 +28,7 @@ myPromise.catch(error => {
 
 ```js
 assert(
-  __helpers.removeWhiteSpace(code).match(/(makeServerRequest|\))\.catch\(/g)
+  __helpers.removeWhiteSpace(__helpers.removeJSComments(code)).match(/(makeServerRequest|\))\.catch\(/g)
 );
 ```
 
@@ -38,13 +38,13 @@ assert(
 assert(errorIsParameter);
 ```
 
-Ви повинні ввести `error` на консолі.
+Ви повинні вивести `error` на консолі.
 
 ```js
 assert(
   errorIsParameter &&
     __helpers
-      .removeWhiteSpace(code)
+      .removeWhiteSpace(__helpers.removeJSComments(code))
       .match(/\.catch\(.*?error.*?console.log\(error\).*?\)/)
 );
 ```
@@ -54,7 +54,7 @@ assert(
 ## --after-user-code--
 
 ```js
-const errorIsParameter = /\.catch\((function\(error\){|error|\(error\)=>)/.test(__helpers.removeWhiteSpace(code));
+const errorIsParameter = /\.catch\((function\(error\){|error|\(error\)=>)/.test(__helpers.removeWhiteSpace(__helpers.removeJSComments(code)));
 ```
 
 ## --seed-contents--

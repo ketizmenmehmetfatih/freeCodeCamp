@@ -22,7 +22,7 @@ const singleQuoteStr = 'This is also a string';
 const conversation = 'Finn exclaims to Jake, "Algebraic!"';
 ```
 
-Однак проблема виникає тоді, коли вам потрібно використати зовнішні лапки в межах рядка. Пам'ятайте, що на початку і в кінці рядка використовуються ті ж самі лапки. Але якщо ви використаєте ці лапки всередині рядка, то рядок закінчиться швидше і це призведе до помилки.
+Однак проблема виникає тоді, коли вам потрібно використати зовнішні лапки в межах рядка. Пам’ятайте, що на початку і в кінці рядка використовуються ті ж самі лапки. Але якщо ви використаєте ці лапки всередині рядка, то рядок закінчиться швидше і це призведе до помилки.
 
 ```js
 const goodStr = 'Jake asks Finn, "Hey, let\'s go on an adventure?"'; 
@@ -47,7 +47,7 @@ const badStr = 'Finn responds, "Let's go!"';
 
 ```js
 assert(
-  !/\\/g.test(code) &&
+  !/\\/g.test(__helpers.removeJSComments(code)) &&
     myStr.match(
       '\\s*<a href\\s*=\\s*"http://www.example.com"\\s*target\\s*=\\s*"_blank">\\s*Link\\s*</a>\\s*'
     )
@@ -57,7 +57,7 @@ assert(
 Ви повинні мати дві одинарні лапки `'` та чотири подвійні лапки `"`.
 
 ```js
-assert(code.match(/"/g).length === 4 && code.match(/'/g).length === 2);
+assert(__helpers.removeJSComments(code).match(/"/g).length === 4 && __helpers.removeJSComments(code).match(/'/g).length === 2);
 ```
 
 # --seed--

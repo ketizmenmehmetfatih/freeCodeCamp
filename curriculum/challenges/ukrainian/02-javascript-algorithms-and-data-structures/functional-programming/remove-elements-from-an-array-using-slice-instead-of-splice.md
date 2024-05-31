@@ -8,7 +8,7 @@ dashedName: remove-elements-from-an-array-using-slice-instead-of-splice
 
 # --description--
 
-Часто при роботі з масивами потрібно видалити деякі елементи, а решту масиву зберегти. JavaScript пропонує метод `splice`, який приймає аргументи для індексу (де саме почати видаляти елементи), а тоді – їх кількість. Якщо другий аргумент не надано, то елементи видаляються до кінця за замовчуванням. Однак метод `splice` змінює вихідний масив, у якому викликається. Ось приклад:
+Часто при роботі з масивами потрібно видалити деякі елементи, а решту масиву зберегти. JavaScript пропонує метод `splice`, який приймає аргументи для індексу (де саме почати видаляти елементи), а тоді — їх кількість. Якщо другий аргумент не надано, то елементи видаляються до кінця за замовчуванням. Однак метод `splice` змінює вихідний масив, у якому викликається. Ось приклад:
 
 ```js
 const cities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
@@ -30,32 +30,25 @@ cities.splice(3, 1);
 Ваш код повинен використовувати метод `slice`.
 
 ```js
-assert(code.match(/\.slice/g));
+assert(__helpers.removeJSComments(code).match(/\.slice/g));
 ```
 
 Ваш код не повинен використовувати метод `splice`.
 
 ```js
-assert(!code.match(/\.?[\s\S]*?splice/g));
+assert(!__helpers.removeJSComments(code).match(/\.?[\s\S]*?splice/g));
 ```
 
-Масив `inputCities` не повинен змінюватись.
+Не змінюйте початковий масив, переданий до функції.
 
 ```js
-assert(
-  JSON.stringify(inputCities) ===
-    JSON.stringify(['Chicago', 'Delhi', 'Islamabad', 'London', 'Berlin'])
-);
+assert.deepEqual(_inputCities, ["Chicago", "Delhi", "Islamabad", "London", "Berlin"]);
 ```
 
 `nonMutatingSplice(["Chicago", "Delhi", "Islamabad", "London", "Berlin"])` має повертати `["Chicago", "Delhi", "Islamabad"]`.
 
 ```js
-assert(
-  JSON.stringify(
-    nonMutatingSplice(['Chicago', 'Delhi', 'Islamabad', 'London', 'Berlin'])
-  ) === JSON.stringify(['Chicago', 'Delhi', 'Islamabad'])
-);
+assert.deepEqual(nonMutatingSplice(_inputCities), ["Chicago", "Delhi", "Islamabad"]);
 ```
 
 # --seed--
@@ -64,14 +57,15 @@ assert(
 
 ```js
 function nonMutatingSplice(cities) {
-  // Only change code below this line
+
   return cities.splice(3);
-
-  // Only change code above this line
 }
+```
 
-const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
-nonMutatingSplice(inputCities);
+## --after-user-code--
+
+```js
+const _inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
 ```
 
 # --solutions--
@@ -80,5 +74,4 @@ nonMutatingSplice(inputCities);
 function nonMutatingSplice(cities) {
   return cities.slice(0,3);
 }
-const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
 ```

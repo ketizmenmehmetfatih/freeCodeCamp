@@ -3,13 +3,13 @@ id: 5f32db63eb37f7e17323f459
 title: Build a Castle
 challengeType: 12
 helpCategory: Backend Development
-url: https://github.com/freeCodeCamp/learn-nano-by-building-a-castle
+url: freeCodeCamp/learn-nano-by-building-a-castle
 dashedName: build-a-castle
 ---
 
 # --description--
 
-In this 40-lesson course, you will learn how to edit files in the terminal with Nano while building a castle.
+In diesem Kurs mit 40 Lektionen lernst du, wie man Dateien im Terminal mit Nano bearbeitet und dabei eine Burg baut.
 
 # --instructions--
 

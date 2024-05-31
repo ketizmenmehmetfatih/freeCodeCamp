@@ -1,6 +1,6 @@
 ---
 id: 587d824d367417b2b2512c50
-title: Test if a Value is an Array
+title: Teste, ob ein Wert ein Array ist
 challengeType: 2
 forumTopicId: 301600
 dashedName: test-if-a-value-is-an-array
@@ -8,15 +8,15 @@ dashedName: test-if-a-value-is-an-array
 
 # --description--
 
-As a reminder, this project is being built upon the following starter project on <a href="https://replit.com/github/freeCodeCamp/boilerplate-mochachai" target="_blank" rel="noopener noreferrer nofollow">Replit</a>, or cloned from <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>.
+As a reminder, this project is being built upon the following starter project on <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">Gitpod</a>, or cloned from <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>.
 
 # --instructions--
 
-Within `tests/1_unit-tests.js` under the test labelled `#11` in the `Arrays` suite, change each `assert` to either `assert.isArray` or `assert.isNotArray` to make the test pass (should evaluate to `true`). Do not alter the arguments passed to the asserts.
+Within `tests/1_unit-tests.js` under the test labeled `#11` in the `Arrays` suite, change each `assert` to either `assert.isArray` or `assert.isNotArray` to make the test pass (should evaluate to `true`). Do not alter the arguments passed to the asserts.
 
 # --hints--
 
-All tests should pass.
+Alle Tests sollten erfolgreich sein.
 
 ```js
 (getUserInput) =>
@@ -30,7 +30,7 @@ All tests should pass.
   );
 ```
 
-You should choose the correct method for the first assertion - `isArray` vs. `isNotArray`.
+Du solltest die richtige Methode für die erste Behauptung wählen, `isArray` vs. `isNotArray`.
 
 ```js
 (getUserInput) =>
@@ -48,7 +48,7 @@ You should choose the correct method for the first assertion - `isArray` vs. `is
   );
 ```
 
-You should choose the correct method for the second assertion - `isArray` vs. `isNotArray`.
+Du solltest die richtige Methode für die zweite Behauptung wählen, `isArray` vs. `isNotArray`.
 
 ```js
 (getUserInput) =>

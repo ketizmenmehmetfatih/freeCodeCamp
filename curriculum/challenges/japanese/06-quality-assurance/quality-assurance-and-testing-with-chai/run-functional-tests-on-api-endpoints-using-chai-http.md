@@ -8,7 +8,7 @@ dashedName: run-functional-tests-on-api-endpoints-using-chai-http
 
 # --description--
 
-注意点として、このプロジェクトは <a href="https://replit.com/github/freeCodeCamp/boilerplate-mochachai" target="_blank" rel="noopener noreferrer nofollow">Replit</a> にあるスタータープロジェクトをベースに構築されているか、または <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">GitHub</a> からクローンされています。
+As a reminder, this project is being built upon the following starter project on <a href="https://gitpod.io/?autostart=true#https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">Gitpod</a>, or cloned from <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>.
 
 Mocha では、`chai-http` というプラグインを使用して API エンドポイントへの呼び出しのような非同期操作をテストできます。
 
@@ -19,6 +19,7 @@ suite('GET /hello?name=[name] => "hello [name]"', function () {
   test('?name=John', function (done) {
     chai
       .request(server)
+      .keepOpen()
       .get('/hello?name=John')
       .end(function (err, res) {
         assert.equal(res.status, 200, 'Response status should be 200');
@@ -35,11 +36,15 @@ suite('GET /hello?name=[name] => "hello [name]"', function () {
 
 また、テストのコールバック関数の `done` パラメーターに注意してください。 非同期操作が完了したことを示すために、この関数をテストの最後に引数なしで呼び出す必要があります。
 
+Finally, note the `keepOpen` method just after the `request` method. Normally you would run your tests from the command line, or as part of an automated integration process, and you could let `chai-http` start and stop your server automatically.
+
+However, the tests that run when you submit the link to your project require your server to be up, so you need to use the `keepOpen` method to prevent `chai-http` from stopping your server.
+
 # --instructions--
 
-`tests/2_functional-tests.js` 内で、`'Test GET /hello with no name'` テスト (`// #1`) を変更し、レスポンスの `status` と `text` をアサートしてテストに合格させてください。 アサートに渡された引数を変更しないでください。
+`tests/2_functional-tests.js` 内で、`'Test GET /hello with no name'` テスト (`// #1`) を変更し、レスポンスの `status` と `text` をアサートしてテストが成功するようにしてください。 アサートに渡された引数は変更しないでください。
 
-URL クエリはなしとしてください。 名前の URL クエリがない場合、エンドポイントは `hello Guest` で応答します。
+URL クエリはなしとしてください。 名前 (name) の URL クエリがない場合、エンドポイントは `hello Guest` で応答します。
 
 # --hints--
 

@@ -13,7 +13,7 @@ L'operatore <dfn>Or logico</dfn> (`||`) restituisce `true` se uno degli <dfn>ope
 
 L'operatore <dfn>or logico</dfn> è composto da due simboli "pipe": (`||`). Questo in genere può essere trovato tra i tuoi tasti Backspace e Enter.
 
-Lo schema sottostante dovrebbe esserti familiare dai punti visti in precedenza:
+Lo schema sottostante dovrebbe esserti familiare dai punti visti in precedenza.
 
 ```js
 if (num > 10) {
@@ -25,7 +25,7 @@ if (num < 5) {
 return "Yes";
 ```
 
-Esso restituirà `Yes` solo se `num` è compreso tra `5` e `10` (5 e 10 inclusi). La stessa logica può essere scritta come:
+Questo codice restituirà `Yes` se `num` è compreso tra `5` e `10` (`5` e `10` inclusi). La stessa logica può essere scritta con l'operatore logico <dfn>or</dfn>.
 
 ```js
 if (num > 10 || num < 5) {
@@ -43,13 +43,13 @@ Combina le due istruzioni `if` in un'unica istruzione che restituisca la stringa
 Dovresti usare l'operatore `||` una sola volta
 
 ```js
-assert(code.match(/\|\|/g).length === 1);
+assert(__helpers.removeJSComments(code).match(/\|\|/g).length === 1);
 ```
 
 Dovresti avere una sola istruzione `if`
 
 ```js
-assert(code.match(/if/g).length === 1);
+assert(__helpers.removeJSComments(code).match(/if/g).length === 1);
 ```
 
 `testLogicalOr(0)` dovrebbe restituire la stringa `Outside`

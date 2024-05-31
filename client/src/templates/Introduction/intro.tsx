@@ -1,32 +1,28 @@
-import { Grid, ListGroup, ListGroupItem } from '@freecodecamp/react-bootstrap';
 import { Link, graphql } from 'gatsby';
 import React from 'react';
 import Helmet from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 
-import ButtonSpacer from '../../components/helpers/button-spacer';
+import { Container } from '@freecodecamp/ui';
+import Spacer from '../../components/helpers/spacer';
 import FullWidthRow from '../../components/helpers/full-width-row';
 import LearnLayout from '../../components/layouts/learn';
-import {
-  MarkdownRemark,
-  AllChallengeNode,
-  ChallengeNode
-} from '../../redux/prop-types';
+import type { MarkdownRemark, AllChallengeNode } from '../../redux/prop-types';
 
 import './intro.css';
 
-function renderMenuItems({
-  edges = []
-}: {
-  edges?: Array<{ node: ChallengeNode }>;
-}) {
-  return edges
-    .map(({ node: { challenge } }) => challenge)
-    .map(({ title, fields: { slug } }) => (
-      <Link key={'intro-' + slug} to={slug}>
-        <ListGroupItem>{title}</ListGroupItem>
-      </Link>
-    ));
+function Challenges({ challengeNodes }: { challengeNodes: AllChallengeNode }) {
+  return (
+    <ul className='intro-toc'>
+      {challengeNodes.edges
+        .map(({ node: { challenge } }) => challenge)
+        .map(({ title, fields: { slug } }) => (
+          <li key={'intro-' + slug}>
+            <Link to={slug}>{title}</Link>
+          </li>
+        ))}
+    </ul>
+  );
 }
 
 function IntroductionPage({
@@ -40,20 +36,21 @@ function IntroductionPage({
   const { t } = useTranslation();
   const {
     html,
-    frontmatter: { block }
+    frontmatter: { block, superBlock }
   } = markdownRemark;
   const firstLesson =
     allChallengeNode && allChallengeNode.edges[0].node.challenge;
   const firstLessonPath = firstLesson
     ? firstLesson.fields.slug
     : '/strange-place';
-
+  const blockTitle =
+    t(`intro:${superBlock}.blocks.${block}.title`) + ' | freeCodeCamp.org';
   return (
     <LearnLayout>
       <Helmet>
-        <title>{block} | freeCodeCamp.org</title>
+        <title>{blockTitle}</title>
       </Helmet>
-      <Grid className='intro-layout-container'>
+      <Container className='intro-layout-container'>
         <FullWidthRow>
           <div
             className='intro-layout'
@@ -67,20 +64,20 @@ function IntroductionPage({
           >
             {t('buttons.first-lesson')}
           </Link>
-          <ButtonSpacer />
+          <Spacer size='small' />
           <Link className='btn btn-lg btn-primary btn-block' to='/learn'>
             {t('buttons.view-curriculum')}
           </Link>
-          <ButtonSpacer />
+          <Spacer size='small' />
           <hr />
         </FullWidthRow>
         <FullWidthRow>
           <h2 className='intro-toc-title'>{t('learn.upcoming-lessons')}</h2>
-          <ListGroup className='intro-toc'>
-            {allChallengeNode ? renderMenuItems(allChallengeNode) : null}
-          </ListGroup>
+          {allChallengeNode ? (
+            <Challenges challengeNodes={allChallengeNode} />
+          ) : null}
         </FullWidthRow>
-      </Grid>
+      </Container>
     </LearnLayout>
   );
 }
@@ -94,6 +91,7 @@ export const query = graphql`
     markdownRemark(fields: { slug: { eq: $slug } }) {
       frontmatter {
         block
+        superBlock
       }
       html
     }

@@ -8,7 +8,7 @@ dashedName: build-a-survey-form
 
 # --description--
 
-**Aufgabe:** Erstelle eine Anwendung, die eine ähnliche Funktionalität wie <a href="https://survey-form.freecodecamp.rocks" target="_blank" rel="noopener noreferrer nofollow">https://survey-form.freecodecamp.rocks</a> aufweist
+**Objective:** Build an app that is functionally similar to <a href="https://survey-form.freecodecamp.rocks" target="_blank" rel="noopener noreferrer nofollow">https://survey-form.freecodecamp.rocks</a>. **Do not copy this demo project**.
 
 **User Stories:**
 
@@ -91,7 +91,7 @@ const el = document.getElementById('name')
 assert(!!el && el.required)
 ```
 
-Your `#name` should be a descendant of `#survey-form`.
+Dein `#name` sollte ein Nachfahre von `#survey-form` sein.
 
 ```js
 const el = document.querySelector('#survey-form #name')
@@ -119,7 +119,7 @@ const el = document.getElementById('email')
 assert(!!el && el.required)
 ```
 
-Your `#email` should be a descendant of `#survey-form`.
+Deine `#email` sollte ein Nachfahre von `#survey-form` sein.
 
 ```js
 const el = document.querySelector('#survey-form #email')
@@ -133,7 +133,7 @@ const el = document.getElementById('number')
 assert(!!el && el.tagName === 'INPUT')
 ```
 
-Your `#number` should be a descendant of `#survey-form`.
+Deine `#number` sollte ein Nachfahre von `#survey-form` sein.
 
 ```js
 const el = document.querySelector('#survey-form #number')
@@ -203,21 +203,21 @@ const el = document.getElementById('number-label')
 assert(!!el && el.innerText.length > 0)
 ```
 
-Your `#name-label` should be a descendant of `#survey-form`.
+Dein `#name-label` sollte ein Nachfahre von `#survey-form` sein.
 
 ```js
 const el = document.querySelector('#survey-form #name-label')
 assert(!!el)
 ```
 
-Your `#email-label` should be a descendant of `#survey-form`.
+Dein `#email-label` sollte ein Nachfahre von `#survey-form` sein.
 
 ```js
 const el = document.querySelector('#survey-form #email-label')
 assert(!!el)
 ```
 
-Your `#number-label` should be a descendant of `#survey-form`.
+Dein `#number-label` sollte ein Nachfahre von `#survey-form` sein.
 
 ```js
 const el = document.querySelector('#survey-form #number-label')
@@ -373,7 +373,7 @@ assert(!!el)
 
 ```
 
-## --solutions--
+# --solutions--
 
 ```html
 <!DOCTYPE html>
